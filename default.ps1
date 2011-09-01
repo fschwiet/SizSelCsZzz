@@ -83,8 +83,8 @@ task BuildNuget -depends Build {
             set-xml -exactlyOnce "//ns:tags" "Selenium, WebDriver, Browser, Automation"
 
             set-xml -exactlyOnce "//ns:dependencies" ""
-            #append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
-            #append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"NDesk.Options`" version=`"0.2`" />"
+            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
+            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.5`" />"
 
             append-xml "." "<summary>$shortDescription  This library requires ASP.NET 4.</summary>"
         }
