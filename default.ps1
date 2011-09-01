@@ -48,11 +48,11 @@ task Build -depends Cleanup,GenerateAssemblyInfo {
     exec { &"C:\Windows\Microsoft.NET\Framework\$v4_net_version\MSBuild.exe" SizSelCsZzz.sln /T:"Clean,Build" /property:OutDir="$buildDirectory\" }    
 }
 
-task RunTests {
+task RunTests -depends Build {
     exec { & "$baseDirectory\packages\NUnit.2.5.10.11092\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" }
 }
 
-task BuildNuget -depends Build {
+task BuildNuget -depends RunTests {
 
     $nugetTarget = "$buildDirectory\nuget"
 
@@ -64,7 +64,7 @@ task BuildNuget -depends Build {
 
     $old = pwd
     cd $nugetTarget
-
+    
     ..\..\tools\nuget.exe spec -a ".\lib\SizSelCsZzz.dll"
 
     update-xml "SizSelCsZzz.nuspec" {
