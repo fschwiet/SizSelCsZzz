@@ -25,10 +25,14 @@ namespace SizSelCsZzz.Test
 
                     then("it works", delegate
                     {
-                        expect(() => browser.FindElement(By.CssSelector("div:contains('Hello')")) != null);
+                        expect(() => browser.FindElements(BySizzler.CssSelector("div:contains('Hello')")).Count() == 1);
                     });
                 });
             });
+
+            // should handle special characters
+            // should use .First() vs .Single() like By.CssSelector
+            // should fail like By.CssSelector
         }
     }
 }

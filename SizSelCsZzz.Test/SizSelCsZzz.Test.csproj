@@ -75,13 +75,18 @@
     <Compile Include="FakeInternet\StaticServer.cs" />
     <Compile Include="FakeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FakeInternet\HelloWorld.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SizSelCsZzz\SizSelCsZzz.csproj">
+      <Project>{9E339DFB-76F1-4C6B-AF56-7BC9D86F176E}</Project>
+      <Name>SizSelCsZzz</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

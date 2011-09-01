@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
+using SizSelCsZzz.Core;
 
 namespace SizSelCsZzz.Test.FakeInternet
 {
