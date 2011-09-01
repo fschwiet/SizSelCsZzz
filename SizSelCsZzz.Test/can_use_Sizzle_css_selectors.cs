@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NJasmine;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using SizSelCsZzz.Test.FakeInternet;
 
 namespace SizSelCsZzz.Test
 {
@@ -12,9 +15,18 @@ namespace SizSelCsZzz.Test
         {
             given("a server serving a simple page", delegate
             {
+                var server = beforeAll(() => new StaticServer("127.0.0.3", 8081));
+                beforeAll(() => server.Start());
+
                 when("we try to find an element using a Sizzler specific selector", delegate
                 {
-                    then("it works");
+                    var browser = arrange(() => new FirefoxDriver());
+                    arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
+
+                    then("it works", delegate
+                    {
+                        expect(() => browser.FindElement(By.CssSelector("div:contains('Hello')")) != null);
+                    });
                 });
             });
         }
