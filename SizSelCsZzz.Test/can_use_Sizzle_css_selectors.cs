@@ -37,8 +37,6 @@ namespace SizSelCsZzz.Test
                     {
                         expect(() => browser.FindElement(BySizzler.CssSelector("li:contains('\"quotes\"')")) != null);
                     });
-
-                    then("FindElement fails in a useful manner");
                 });
             });
         }
