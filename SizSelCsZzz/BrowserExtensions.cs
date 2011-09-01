@@ -10,7 +10,7 @@ namespace SizSelCsZzz
     {
         public static int MaxWaitMS = 5000;
 
-        public static IWebElement WaitForElement(this IWebDriver browser, By condition, int? maxWaitMS)
+        public static IWebElement WaitForElement(this IWebDriver browser, By condition, int? maxWaitMS = null)
         {
             maxWaitMS = maxWaitMS ?? MaxWaitMS;
 
