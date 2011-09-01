@@ -15,8 +15,8 @@ namespace SizSelCsZzz.Test
         {
             given("a server serving a simple page", delegate
             {
-                var server = arrange(() => new StaticServer("127.0.0.3", 8081));
-                arrange(() => server.Start());
+                var server = beforeAll(() => new StaticServer("127.0.0.3", 8081));
+                beforeAll(() => server.Start());
 
                 when("Selenium is used to test the page", delegate
                 {

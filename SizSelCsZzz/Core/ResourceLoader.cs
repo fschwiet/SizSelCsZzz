@@ -8,7 +8,7 @@ namespace SizSelCsZzz.Core
         public static string LoadResourceRelativeToType(Type type, string name) {
 
             Assembly assembly = Assembly.GetAssembly(type);
-            //string[] names = assembly.GetManifestResourceNames();
+
             using(Stream resource = assembly.GetManifestResourceStream(type, name))
             using(StreamReader textStreamReader = new StreamReader(resource))
             {

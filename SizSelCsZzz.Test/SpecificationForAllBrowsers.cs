@@ -30,6 +30,8 @@ namespace SizSelCsZzz.Test
 
             given("using Internet Explorer", delegate
             {
+                this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
+
                 var browser = arrange(() => new InternetExplorerDriver());
 
                 SpecifyForBrowser(browser);

@@ -32,7 +32,18 @@ namespace SizSelCsZzz.Test
 
                 var incoming = _listener.EndGetContext(ar1);
 
-                action(incoming.Request, incoming.Response);
+                try
+                {
+                    action(incoming.Request, incoming.Response);
+
+                    incoming.Response.Close();
+                }
+                catch (Exception)
+                {
+                    incoming.Response.Abort();
+
+                    Console.WriteLine(this.GetType() + " request failed, was requesting " + incoming.Request.Url);
+                }
 
                 _listener.BeginGetContext(result, null);
             };
