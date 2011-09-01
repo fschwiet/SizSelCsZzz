@@ -8,9 +8,13 @@ namespace SizSelCsZzz
 {
     public static class BrowserExtensions
     {
-        public static IWebElement WaitForElement(this IWebDriver browser, By condition)
+        public static int MaxWaitMS = 5000;
+
+        public static IWebElement WaitForElement(this IWebDriver browser, By condition, int? maxWaitMS)
         {
-            return new WebDriverWait(browser, TimeSpan.FromMilliseconds(5000)).Until(driver => driver.FindElement(condition));
+            maxWaitMS = maxWaitMS ?? MaxWaitMS;
+
+            return new WebDriverWait(browser, TimeSpan.FromMilliseconds(MaxWaitMS)).Until(driver => driver.FindElement(condition));
         }
 
         public static string GetBodyText(this IWebDriver browser)
