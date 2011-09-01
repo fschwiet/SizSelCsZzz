@@ -1,7 +1,7 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.0.2"
+    $version = "0.0.3"
 
     $shortDescription = "An extension to Selenium to support Sizzler based CSS selectors.  Also, an extension method for waiting."
 }
@@ -80,7 +80,7 @@ task BuildNuget -depends RunTests {
             set-xml -exactlyOnce "//ns:licenseUrl" "https://github.com/fschwiet/SizSelCsZzz/blob/master/LICENSE.txt"
             set-xml -exactlyOnce "//ns:projectUrl" "https://github.com/fschwiet/SizSelCsZzz/"
             remove-xml -exactlyOnce "//ns:iconUrl"
-            set-xml -exactlyOnce "//ns:tags" "Selenium, WebDriver, Browser, Automation"
+            set-xml -exactlyOnce "//ns:tags" "Selenium WebDriver Browser Automation"
 
             set-xml -exactlyOnce "//ns:dependencies" ""
             append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
