@@ -19,12 +19,12 @@ namespace SizSelCsZzz
 
         public BySizzler(string selector)
         {
-            _selector = selector;
+            _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector);
         }
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
-            var javascriptExpression = "return Sizzle(\"" + _selector + "\")";
+            var javascriptExpression = "return Sizzle(" + _selector + ")";
 
             var scriptExecutor = context as IJavaScriptExecutor;
 

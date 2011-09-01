@@ -18,26 +18,29 @@ namespace SizSelCsZzz.Test
                 var server = arrange(() => new StaticServer("127.0.0.3", 8081));
                 arrange(() => server.Start());
 
-                when("we try to find an element using a Sizzler specific selector", delegate
+                when("Selenium is used to test the page", delegate
                 {
                     var browser = arrange(() => new FirefoxDriver());
                     arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
 
-                    then("we can find the element with FindElements", delegate
+                    then("FindElements can be used to find an element", delegate
                     {
                         expect(() => browser.FindElements(BySizzler.CssSelector("div:contains('Hello')")).Count() == 1);
                     });
 
-                    then("we can find the element with FindElement", delegate
+                    then("FindElement can be used to find an element", delegate
                     {
                         expect(() => browser.FindElement(BySizzler.CssSelector("div:contains('Hello')")) != null);
                     });
+
+                    then("FindElement can handle special characters", delegate
+                    {
+                        expect(() => browser.FindElement(BySizzler.CssSelector("li:contains('\"quotes\"')")) != null);
+                    });
+
+                    then("FindElement fails in a useful manner");
                 });
             });
-
-            // should handle special characters
-            // should use .First() vs .Single() like By.CssSelector
-            // should fail like By.CssSelector
         }
     }
 }
