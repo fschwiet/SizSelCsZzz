@@ -2,6 +2,7 @@ bin/
 obj/
 build/
 _ReSharper.*
+ChromeDriver.log
 *.ReSharper.user
 *.resharper.user
 *.csproj.user

@@ -8,10 +8,6 @@ namespace SizSelCsZzz.Test.FakeInternet
 {
     public class StaticServer : FakeServer
     {
-        // I don't know why but loading the resource multiple times would fail...
-        // So I cache them.
-        //Dictionary<string, string> _resourceCache = new Dictionary<string, string>();
-
         public StaticServer(string host, int port) : base(host, port)
         {
         }
@@ -21,17 +17,9 @@ namespace SizSelCsZzz.Test.FakeInternet
             base.Start((request, response) =>
             {
                 var resourceName = request.Url.LocalPath.TrimStart('/');
-                string body = null;
+                string body = ResourceLoader.LoadResourceRelativeToType(this.GetType(), resourceName);
 
-                //if (_resourceCache.ContainsKey(resourceName))
-                //{
-                //    body = _resourceCache[resourceName];
-                //}
-                //else
-                //{
-                    body = ResourceLoader.LoadResourceRelativeToType(this.GetType(), resourceName);
-                //    _resourceCache[resourceName] = body;
-                //}
+                response.Headers.Add("Content-Type", "text/html; charset=UTF-8");
 
                 using (var writer = new StreamWriter(response.OutputStream, Encoding.UTF8))
                 {
