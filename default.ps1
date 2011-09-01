@@ -1,7 +1,7 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.0.1"
+    $version = "0.0.2"
 
     $shortDescription = "An extension to Selenium to support Sizzler based CSS selectors.  Also, an extension method for waiting."
 }
