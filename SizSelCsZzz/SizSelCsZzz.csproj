@@ -48,8 +48,12 @@
     <Reference Include="WebDriver">
       <HintPath>..\packages\Selenium.WebDriver.2.5.1\lib\net40\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver.Support">
+      <HintPath>..\packages\Selenium.Support.2.5.1\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserExtensions.cs" />
     <Compile Include="BySizzler.cs" />
     <Compile Include="Core\ResourceLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
