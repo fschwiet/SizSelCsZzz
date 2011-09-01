@@ -33,6 +33,11 @@ namespace SizSelCsZzz
             return result;
         }
 
+        public override IWebElement FindElement(ISearchContext context)
+        {
+            return FindElements(context).First();
+        }
+
         private static IEnumerable<object> GetMatches(IJavaScriptExecutor scriptExecutor, string javascriptExpression)
         {
             EnsureSizzlerIsLoaded(scriptExecutor);

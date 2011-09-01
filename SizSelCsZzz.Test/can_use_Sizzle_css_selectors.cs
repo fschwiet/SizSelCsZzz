@@ -15,17 +15,22 @@ namespace SizSelCsZzz.Test
         {
             given("a server serving a simple page", delegate
             {
-                var server = beforeAll(() => new StaticServer("127.0.0.3", 8081));
-                beforeAll(() => server.Start());
+                var server = arrange(() => new StaticServer("127.0.0.3", 8081));
+                arrange(() => server.Start());
 
                 when("we try to find an element using a Sizzler specific selector", delegate
                 {
                     var browser = arrange(() => new FirefoxDriver());
                     arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
 
-                    then("it works", delegate
+                    then("we can find the element with FindElements", delegate
                     {
                         expect(() => browser.FindElements(BySizzler.CssSelector("div:contains('Hello')")).Count() == 1);
+                    });
+
+                    then("we can find the element with FindElement", delegate
+                    {
+                        expect(() => browser.FindElement(BySizzler.CssSelector("div:contains('Hello')")) != null);
                     });
                 });
             });

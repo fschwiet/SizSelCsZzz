@@ -9,9 +9,11 @@ namespace SizSelCsZzz.Core
 
             Assembly assembly = Assembly.GetAssembly(type);
             //string[] names = assembly.GetManifestResourceNames();
-            Stream resource = assembly.GetManifestResourceStream(type, name);
-            StreamReader textStreamReader = new StreamReader(resource);
-            return textStreamReader.ReadToEnd();
+            using(Stream resource = assembly.GetManifestResourceStream(type, name))
+            using(StreamReader textStreamReader = new StreamReader(resource))
+            {
+                return textStreamReader.ReadToEnd();
+            }
         }
     }
 }
