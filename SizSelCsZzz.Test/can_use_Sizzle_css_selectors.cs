@@ -9,9 +9,9 @@ using SizSelCsZzz.Test.FakeInternet;
 
 namespace SizSelCsZzz.Test
 {
-    public class can_use_Sizzle_css_selectors : GivenWhenThenFixture
+    public class can_use_Sizzle_css_selectors : SpecificationForAllBrowsers
     {
-        public override void Specify()
+        public override void SpecifyForBrowser(IWebDriver browser)
         {
             given("a server serving a simple page", delegate
             {
@@ -20,7 +20,6 @@ namespace SizSelCsZzz.Test
 
                 when("Selenium is used to test the page", delegate
                 {
-                    var browser = arrange(() => new FirefoxDriver());
                     arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
 
                     then("FindElements can be used to find an element", delegate
