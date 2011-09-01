@@ -87,7 +87,7 @@ task BuildNuget -depends RunTests {
             append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.5`" />"
             append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.Support`" version=`"2.5`" />"
 
-            append-xml "." "<summary>$shortDescription  This library requires ASP.NET 4.</summary>"
+            append-xml "." "<summary>$shortDescription  This library requires .NET 4.</summary>"
         }
     }
 
