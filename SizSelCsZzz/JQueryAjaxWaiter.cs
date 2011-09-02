@@ -10,19 +10,51 @@ namespace SizSelCsZzz
 {
     public static class JQueryAjaxWaiter
     {
+        public static void MonitorJQueryAjax(this IWebDriver webDriver)
+        {
+            var scriptExecutor = webDriver as IJavaScriptExecutor;
+
+            VerifyJQueryInstalled(scriptExecutor);
+
+            if (!IsFunctionInstalled(scriptExecutor, "SizSelCsZzz_IsRequestPending"))
+            {
+                var ajaxMonitor = ResourceLoader.LoadResourceRelativeToType(typeof(JQueryAjaxWaiter), "Other.jqueryAjaxMonitor.js");
+                scriptExecutor.ExecuteScript(ajaxMonitor);
+            }
+
+            if (!IsFunctionInstalled(scriptExecutor, "SizSelCsZzz_IsRequestPending"))
+                throw new Exception("Unable to load javascript.");
+        }
+
         public static bool IsAjaxPending(this IWebDriver webDriver)
         {
             var scriptExecutor = webDriver as IJavaScriptExecutor;
             
-            if (!IsJQueryInstalled(scriptExecutor))
-                throw new JQueryNotInstalledException();
+            VerifyJQueryInstalled(scriptExecutor);
 
-            return false;
+            if (!IsFunctionInstalled(scriptExecutor, "SizSelCsZzz_IsRequestPending"))
+            {
+                throw new InvalidOperationException("Must call MonitorJQueryAjax before waiting on ajax.");
+            }
+
+            return (bool)scriptExecutor.ExecuteScript("return window.SizSelCsZzz_IsRequestPending()");
         }
 
-        static bool IsJQueryInstalled(IJavaScriptExecutor scriptExecutor)
+        public static bool WasMonitoringStarted(this IWebDriver webDriver)
         {
-            return (Boolean)scriptExecutor.ExecuteScript("return typeof(jQuery)=='function'");
+            var scriptExecutor = webDriver as IJavaScriptExecutor;
+            return IsFunctionInstalled(scriptExecutor, "SizSelCsZzz_IsRequestPending");
+        }
+
+        static void VerifyJQueryInstalled(IJavaScriptExecutor scriptExecutor)
+        {
+            if (!IsFunctionInstalled(scriptExecutor, "jQuery"))
+                throw new JQueryNotInstalledException();
+        }
+
+        static bool IsFunctionInstalled(IJavaScriptExecutor scriptExecutor, string functionName)
+        {
+            return (Boolean)scriptExecutor.ExecuteScript("return typeof(" + functionName + ")=='function'");
         }
     }
 }

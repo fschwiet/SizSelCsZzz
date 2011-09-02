@@ -14,37 +14,132 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            describe("IsRequestPending indicates if a request is pending", delegate
-            {
-                var jquery = beforeAll(() => ResourceLoader.LoadResourceRelativeToType(this.GetType(), "jquerySource.jquery-1.6.2.js"));
-                expect(() => !string.IsNullOrEmpty(jquery));
+            var jquery = beforeAll(() => ResourceLoader.LoadResourceRelativeToType(this.GetType(), "jquerySource.jquery-1.6.2.js"));
+            expect(() => !string.IsNullOrEmpty(jquery));
 
-                var server = arrange(() => new StaticServer("127.0.0.3",8083)
+            var server = arrange(() => new StaticServer("127.0.0.3", 8083)
                 {
                     {"homepage.html", "<html></html>"},
-                    {"pageWithJQuery.html", @"<html>
-<script src='http://127.0.0.3:8083/jquery.js'></script>
-</html>"},
+                    {"pageWithJQuery.html", HtmlLoadingJQuery()},
                     {"jquery.js",jquery},
                 }.Start());
 
-                it("throws an error if jQuery isn't installed", delegate
-                {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/homepage.html");
+            it("requires javascript", delegate
+            {
+                browser.Navigate().GoToUrl("http://127.0.0.3:8083/homepage.html");
 
-                    Assert.Throws<JQueryNotInstalledException>(delegate
-                    {
-                        browser.IsAjaxPending();
-                    });
+                Assert.Throws<JQueryNotInstalledException>(delegate
+                {
+                    browser.MonitorJQueryAjax();
                 });
 
+                Assert.Throws<JQueryNotInstalledException>(delegate
+                {
+                    browser.IsAjaxPending();
+                });
+            });
+
+            describe("MonitorJQueryAjax", delegate
+            {
+                it("must be called before waiting on ajax", delegate
+                {
+                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+
+                    var exceptions = Assert.Throws<InvalidOperationException>(delegate
+                    {
+                        expect(() => !browser.IsAjaxPending());
+                    });
+
+                    expect(() => exceptions.Message.Contains("Must call MonitorJQueryAjax before waiting on ajax."));
+                });
+
+                it("installs some javascript code for monitoring", delegate
+                {
+                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+
+                    expect(() => !JQueryAjaxWaiter.WasMonitoringStarted(browser));
+
+                    browser.MonitorJQueryAjax();
+
+                    expect(() => JQueryAjaxWaiter.WasMonitoringStarted(browser));
+                });
+
+                it("doesnt reinstall that javascript code", delegate
+                {
+                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                    
+                    browser.MonitorJQueryAjax();
+
+                    var scriptExecutor = browser as IJavaScriptExecutor;
+                    scriptExecutor.ExecuteScript("window.SizSelCsZzz_IsRequestPending.tracer = true;");
+
+                    browser.MonitorJQueryAjax();
+
+                    expect(() => (bool)scriptExecutor.ExecuteScript("return window.SizSelCsZzz_IsRequestPending.tracer;"));
+                });
+            });
+
+            describe("IsRequestPending indicates if an AJAX request is pending", delegate
+            {
                 it("returns false initially", delegate
                 {
                     browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
 
-                    expect(() => false == browser.IsAjaxPending());
+                    browser.MonitorJQueryAjax();
+
+                    expect(() => !browser.IsAjaxPending());
                 });
+
+                when("the browser starts a long-running ajax operation", delegate
+                {
+                    var waitHandle = beforeAll(() => new System.Threading.AutoResetEvent(false));
+
+                    var slowServer = beforeAll(delegate
+                    {
+                        var result = new FakeServer("127.0.0.4", 8083);
+                        result.Start((request, response) =>
+                        {
+                            waitHandle.WaitOne();
+                            response.Close();
+                        });
+                        return result;
+                    });
+                    
+                    arrange(delegate
+                    {
+                        browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+
+                        browser.MonitorJQueryAjax();
+
+                        var executor = browser as IJavaScriptExecutor;
+                        executor.ExecuteScript("jQuery.ajax('http://127.0.0.4:8083/');");
+                    });
+
+                    then("IsAjaxPending returns true", delegate
+                    {
+                        expect(() => browser.IsAjaxPending());
+                    });
+
+                    when("that longrunning call completes", delegate
+                    {
+                        arrange(() => waitHandle.Set());
+
+                        then("IsAjaxPending returns false", delegate
+                        {
+                            expect(() => browser.IsAjaxPending());
+                        });
+                    });
+                });
+
             });
+        }
+
+        string HtmlLoadingJQuery(string content = "")
+        {
+            return @"<html>
+<script src='http://127.0.0.3:8083/jquery.js'></script>
+" + content + @"
+</html>";
         }
     }
 }
