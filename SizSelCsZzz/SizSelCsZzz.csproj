@@ -56,6 +56,8 @@
     <Compile Include="BrowserExtensions.cs" />
     <Compile Include="BySizzle.cs" />
     <Compile Include="Core\ResourceLoader.cs" />
+    <Compile Include="Extras\FakeServer.cs" />
+    <Compile Include="Extras\StaticServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -72,10 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="can_use_Sizzle_css_selectors.cs" />
-    <Compile Include="FakeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationForAllBrowsers.cs" />
-    <Compile Include="StaticServer.cs" />
+    <Compile Include="StaticServer_can_be_used_to_fake_external_http_dependencies.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

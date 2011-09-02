@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace SizSelCsZzz.Test
+namespace SizSelCsZzz.Extras
 {
     public class FakeServer : IDisposable
     {

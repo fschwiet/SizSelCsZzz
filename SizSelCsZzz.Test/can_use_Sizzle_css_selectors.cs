@@ -5,6 +5,7 @@ using System.Text;
 using NJasmine;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz.Test
 {
@@ -15,21 +16,20 @@ namespace SizSelCsZzz.Test
             given("a server serving a simple page", delegate
             {
                 var server = beforeAll(() => new StaticServer("127.0.0.3", 8081)
-                    .IncludingHtml(
-                        "HelloWorld.html",
-                        @"
-                            <html>
-                            <body>
-                                <div>Hello, world</div>
+                {
+                    {"HelloWorld.html", @"
+                        <html>
+                        <body>
+                            <div>Hello, world</div>
 
-                                <ul>
-                                    <li></li>
-                                    <li></li>
-                                    <li>""quotes""</li>
-                                </ul>
-                            </body>
-                            </html>")
-                    .Start());
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li>""quotes""</li>
+                            </ul>
+                        </body>
+                        </html>"}
+                }.Start());
 
                 when("Selenium is used to test a Hello, World page", delegate
                 {
