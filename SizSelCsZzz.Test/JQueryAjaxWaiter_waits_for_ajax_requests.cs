@@ -16,23 +16,34 @@ namespace SizSelCsZzz.Test
         {
             describe("IsRequestPending indicates if a request is pending", delegate
             {
+                var jquery = beforeAll(() => ResourceLoader.LoadResourceRelativeToType(this.GetType(), "jquerySource.jquery-1.6.2.js"));
+                expect(() => !string.IsNullOrEmpty(jquery));
+
                 var server = arrange(() => new StaticServer("127.0.0.3",8083)
                 {
-                    {"homepage.html", "<html></html>"}
-                });
+                    {"homepage.html", "<html></html>"},
+                    {"pageWithJQuery.html", @"<html>
+<script src='http://127.0.0.3:8083/jquery.js'></script>
+</html>"},
+                    {"jquery.js",jquery},
+                }.Start());
 
                 it("throws an error if jQuery isn't installed", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8080/");
+                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/homepage.html");
 
-                    Assert.Throws<JQueryRequiredException>(delegate
+                    Assert.Throws<JQueryNotInstalledException>(delegate
                     {
-
                         browser.IsAjaxPending();
                     });
                 });
 
-                it("returns false initially");
+                it("returns false initially", delegate
+                {
+                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+
+                    expect(() => false == browser.IsAjaxPending());
+                });
             });
         }
     }

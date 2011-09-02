@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
-    <Compile Include="Other\JQueryRequiredException.cs" />
+    <Compile Include="Other\JQueryNotInstalledException.cs" />
     <Compile Include="WebDriverExtensions.cs" />
     <Compile Include="BySizzle.cs" />
     <Compile Include="Extras\FakeServer.cs" />
@@ -70,7 +70,6 @@
   <ItemGroup>
     <EmbeddedResource Include="sizzleSource\sizzle.js" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

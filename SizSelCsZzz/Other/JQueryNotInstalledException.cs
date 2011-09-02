@@ -2,7 +2,7 @@
 
 namespace SizSelCsZzz.Other
 {
-    public class JQueryRequiredException : Exception
+    public class JQueryNotInstalledException : Exception
     {
     }
 }
