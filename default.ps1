@@ -3,7 +3,7 @@ properties {
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
     $version = "0.0.4"
 
-    $shortDescription = "An extension to Selenium to support Sizzler based CSS selectors.  Also, an extension method for waiting."
+    $shortDescription = "An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting."
 }
 
 import-module .\tools\PSUpdateXML.psm1

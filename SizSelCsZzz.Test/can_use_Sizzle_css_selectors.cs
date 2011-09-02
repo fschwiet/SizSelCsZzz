@@ -24,17 +24,17 @@ namespace SizSelCsZzz.Test
 
                     then("FindElements can be used to find an element", delegate
                     {
-                        expect(() => browser.FindElements(BySizzler.CssSelector("div:contains('Hello')")).Count() == 1);
+                        expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello')")).Count() == 1);
                     });
 
                     then("FindElement can be used to find an element", delegate
                     {
-                        expect(() => browser.FindElement(BySizzler.CssSelector("div:contains('Hello')")) != null);
+                        expect(() => browser.FindElement(BySizzle.CssSelector("div:contains('Hello')")) != null);
                     });
 
                     then("FindElement can handle special characters", delegate
                     {
-                        expect(() => browser.FindElement(BySizzler.CssSelector("li:contains('\"quotes\"')")) != null);
+                        expect(() => browser.FindElement(BySizzle.CssSelector("li:contains('\"quotes\"')")) != null);
                     });
                 });
             });

@@ -8,16 +8,16 @@ using SizSelCsZzz.Core;
 
 namespace SizSelCsZzz
 {
-    public class BySizzler : By
+    public class BySizzle : By
     {
         public static By CssSelector(string selector)
         {
-            return new BySizzler(selector);
+            return new BySizzle(selector);
         }
 
         private readonly string _selector;
 
-        public BySizzler(string selector)
+        public BySizzle(string selector)
         {
             _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector);
         }
@@ -40,12 +40,12 @@ namespace SizSelCsZzz
 
         private static IEnumerable<object> GetMatches(IJavaScriptExecutor scriptExecutor, string javascriptExpression)
         {
-            EnsureSizzlerIsLoaded(scriptExecutor);
+            EnsureSizzleIsLoaded(scriptExecutor);
 
             return ((IEnumerable<object>) scriptExecutor.ExecuteScript(javascriptExpression));
         }
 
-        static void EnsureSizzlerIsLoaded(IJavaScriptExecutor scriptExecutor)
+        static void EnsureSizzleIsLoaded(IJavaScriptExecutor scriptExecutor)
         {
             if (!SizzleLoaded(scriptExecutor))
             {
@@ -69,11 +69,11 @@ namespace SizSelCsZzz
 
         static void InjectSizzle(IJavaScriptExecutor driver)
         {
-            var sizzlerScript = ResourceLoader.LoadResourceRelativeToType(typeof (BySizzler), "Core.sizzlerSource.sizzle.js");
+            var sizzleScript = ResourceLoader.LoadResourceRelativeToType(typeof (BySizzle), "Core.sizzleSource.sizzle.js");
 
             driver.ExecuteScript(
                 "var scriptSource = " +
-                Newtonsoft.Json.JsonConvert.SerializeObject(sizzlerScript) + ";"
+                Newtonsoft.Json.JsonConvert.SerializeObject(sizzleScript) + ";"
                 + @"
 var newScript = document.createElement('script');
 newScript.type = 'text/javascript';

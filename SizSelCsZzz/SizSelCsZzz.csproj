@@ -54,17 +54,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserExtensions.cs" />
-    <Compile Include="BySizzler.cs" />
+    <Compile Include="BySizzle.cs" />
     <Compile Include="Core\ResourceLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\sizzlerSource\LICENSE" />
-    <None Include="Core\sizzlerSource\README" />
+    <None Include="Core\sizzleSource\LICENSE" />
+    <None Include="Core\sizzleSource\README" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\sizzlerSource\sizzle.js" />
+    <EmbeddedResource Include="Core\sizzleSource\sizzle.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
