@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="can_use_Sizzle_css_selectors.cs" />
+    <Compile Include="miscellaneous_webdriver_extension_methods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationForAllBrowsers.cs" />
     <Compile Include="StaticServer_can_be_used_to_fake_external_http_dependencies.cs" />

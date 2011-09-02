@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SizSelCsZzz
 {
-    public static class BrowserExtensions
+    public static class WebDriverExtensions
     {
         public static int MaxWaitMS = 5000;
 
@@ -34,14 +34,7 @@ namespace SizSelCsZzz
 
         public static int CountElementsMatching(this IWebDriver browser, string cssSelector)
         {
-            int sum = 0;
-
-            foreach(var selector in cssSelector.Split(','))
-            {
-                sum += browser.FindElements(By.CssSelector(selector)).Count();
-            }
-
-            return sum;
+            return browser.FindElements(BySizzle.CssSelector(cssSelector)).Count();
         }
     }
 }
