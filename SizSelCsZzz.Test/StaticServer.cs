@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Text;
 using SizSelCsZzz.Core;
 
-namespace SizSelCsZzz.Test.FakeInternet
+namespace SizSelCsZzz.Test
 {
     public class StaticServer : FakeServer
     {
+        Dictionary<string,string> _staticContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+
         public StaticServer(string host, int port) : base(host, port)
         {
         }
 
-        public void Start()
+        public StaticServer IncludingHtml(string path, string content)
+        {
+            _staticContent[path] = content;
+            return this;
+        }
+
+        public StaticServer Start()
         {
             base.Start((request, response) =>
             {
@@ -25,7 +32,17 @@ namespace SizSelCsZzz.Test.FakeInternet
                     return;
                 }
 
-                string body = ResourceLoader.LoadResourceRelativeToType(this.GetType(), resourceName);
+                string body;
+
+
+                if (_staticContent.ContainsKey(resourceName))
+                {
+                    body = _staticContent[resourceName];
+                }
+                else
+                {
+                    body = ResourceLoader.LoadResourceRelativeToType(this.GetType(), resourceName);
+                }
 
                 response.Headers.Add("Content-Type", "text/html; charset=UTF-8");
 
@@ -36,6 +53,8 @@ namespace SizSelCsZzz.Test.FakeInternet
                     writer.Flush();
                 }
             });
+
+            return this;
         }
     }
 }

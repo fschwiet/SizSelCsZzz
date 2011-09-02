@@ -5,7 +5,6 @@ using System.Text;
 using NJasmine;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using SizSelCsZzz.Test.FakeInternet;
 
 namespace SizSelCsZzz.Test
 {
@@ -15,10 +14,24 @@ namespace SizSelCsZzz.Test
         {
             given("a server serving a simple page", delegate
             {
-                var server = beforeAll(() => new StaticServer("127.0.0.3", 8081));
-                beforeAll(() => server.Start());
+                var server = beforeAll(() => new StaticServer("127.0.0.3", 8081)
+                    .IncludingHtml(
+                        "HelloWorld.html",
+                        @"
+                            <html>
+                            <body>
+                                <div>Hello, world</div>
 
-                when("Selenium is used to test the page", delegate
+                                <ul>
+                                    <li></li>
+                                    <li></li>
+                                    <li>""quotes""</li>
+                                </ul>
+                            </body>
+                            </html>")
+                    .Start());
+
+                when("Selenium is used to test a Hello, World page", delegate
                 {
                     arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
 
