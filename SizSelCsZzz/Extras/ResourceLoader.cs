@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace SizSelCsZzz.Core
+namespace SizSelCsZzz.Extras
 {
     public class ResourceLoader {
         public static string LoadResourceRelativeToType(Type type, string name) {

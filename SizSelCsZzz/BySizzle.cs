@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
-using SizSelCsZzz.Core;
+using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz
 {
@@ -69,7 +69,7 @@ namespace SizSelCsZzz
 
         static void InjectSizzle(IJavaScriptExecutor driver)
         {
-            var sizzleScript = ResourceLoader.LoadResourceRelativeToType(typeof (BySizzle), "Core.sizzleSource.sizzle.js");
+            var sizzleScript = ResourceLoader.LoadResourceRelativeToType(typeof (BySizzle), "sizzleSource.sizzle.js");
 
             driver.ExecuteScript(
                 "var scriptSource = " +
