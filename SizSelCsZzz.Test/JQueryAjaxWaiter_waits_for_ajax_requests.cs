@@ -132,14 +132,18 @@ namespace SizSelCsZzz.Test
                 });
             });
 
-            describe("GetNextAjaxWaiter", delegate
+            describe("StartJQueryAjaxCheck", delegate
             {
                 ignoreBecause("not implemented");
                 it("requires monitoring was started");
-                it("returns false if no ajax requests are pending");
-                it("returns true in an ajax request was pending while it was created");
-                it("returns false if ajax request starts but does not finish");
-                it("returns true if an ajax request starts and finishes");
+
+                describe("StartJQueryAjaxCheck.HasCompleted.", delegate
+                {
+                    it("returns false if no ajax requests are pending");
+                    it("returns true in an ajax request was pending while it was created");
+                    it("returns false if ajax request starts but does not finish");
+                    it("returns true if an ajax request starts and finishes");
+                });
             });
         }
 
