@@ -8,13 +8,13 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: CLSCompliantAttribute(false )]
 [assembly: ComVisibleAttribute(false)]
-[assembly: AssemblyTitleAttribute("SizSelCsZzz 0.0.6.0")]
+[assembly: AssemblyTitleAttribute("SizSelCsZzz 0.0.7.0")]
 [assembly: AssemblyDescriptionAttribute("An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting.")]
 [assembly: AssemblyCompanyAttribute("n/a")]
-[assembly: AssemblyProductAttribute("SizSelCsZzz 0.0.6.0")]
+[assembly: AssemblyProductAttribute("SizSelCsZzz 0.0.7.0")]
 [assembly: AssemblyCopyrightAttribute("Copyright © Frank Schwieterman 2011")]
-[assembly: AssemblyVersionAttribute("0.0.6.0")]
-[assembly: AssemblyInformationalVersionAttribute("0.0.6.0 / 0000000")]
-[assembly: AssemblyFileVersionAttribute("0.0.6.0")]
+[assembly: AssemblyVersionAttribute("0.0.7.0")]
+[assembly: AssemblyInformationalVersionAttribute("0.0.7.0 / 0000000")]
+[assembly: AssemblyFileVersionAttribute("0.0.7.0")]
 [assembly: AssemblyDelaySignAttribute(false)]
 
