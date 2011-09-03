@@ -9,6 +9,7 @@ namespace SizSelCsZzz.Extras
     public class StaticServer : FakeServer, IEnumerable<KeyValuePair<string,string>>
     {
         public static readonly string ContentType_Html = "text/html; charset=UTF-8";
+        public static readonly string ContentType_Javascript = "text/javascript; charset=UTF-8";
 
         Dictionary<string, string> _staticContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         Dictionary<string, string> _contentTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -17,6 +18,7 @@ namespace SizSelCsZzz.Extras
         {
             WithContentType("html", ContentType_Html);
             WithContentType("htm", ContentType_Html);
+            WithContentType("js", ContentType_Javascript);
         }
 
         public StaticServer Add(string path, string content)

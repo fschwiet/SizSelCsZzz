@@ -43,6 +43,7 @@ namespace SizSelCsZzz.Test
                     {"Homepage.html", StaticServer.ContentType_Html},
                     {"Homepage.htm", StaticServer.ContentType_Html},
                     {"Homepage.HtMl", StaticServer.ContentType_Html},
+                    {"Inline.js", StaticServer.ContentType_Javascript},
                     {"foo.bar", expectedBarContentType}
                 })
                 {
