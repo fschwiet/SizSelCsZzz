@@ -34,7 +34,7 @@ namespace SizSelCsZzz.Test
 
                 when("Selenium is used to test a Hello, World page", delegate
                 {
-                    arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8081/HelloWorld.html"));
+                    arrange(() => browser.Navigate().GoToUrl(server.UrlFor("HelloWorld.html")));
 
                     then("FindElements can be used to find an element", delegate
                     {

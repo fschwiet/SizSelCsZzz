@@ -16,16 +16,15 @@ namespace SizSelCsZzz.Test
         {
             var server = arrange(() => new StaticServer("127.0.0.3", 8083)
                 {
-                    {"jquery.js", JQueryUtil.GetJQuerySource()},
-                    {"delay.html", JQueryUtil.HtmlLoadingJQuery("http://127.0.0.3:8083/jquery.js", @"
-
-                        <div> Hello, world. </div>
-                    ")}
+                    {"jquery.js", JQueryUtil.GetJQuerySource()}
                 }.Start());
+
+            arrange(() => server.Add("delay.html", 
+                JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"), "<div> Hello, world. </div>")));
 
             describe("WaitForElement", delegate
             {
-                arrange(() => browser.Navigate().GoToUrl("http://127.0.0.3:8083/delay.html"));
+                arrange(() => browser.Navigate().GoToUrl(server.UrlFor("delay.html")));
 
                 it("can find an element on the page", delegate
                 {

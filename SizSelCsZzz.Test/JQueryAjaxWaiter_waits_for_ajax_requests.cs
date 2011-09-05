@@ -24,7 +24,7 @@ namespace SizSelCsZzz.Test
 
             it("requires javascript", delegate
             {
-                browser.Navigate().GoToUrl("http://127.0.0.3:8083/homepage.html");
+                browser.Navigate().GoToUrl(server.UrlFor("homepage.html"));
 
                 Assert.Throws<JQueryNotInstalledException>(delegate
                 {
@@ -41,7 +41,7 @@ namespace SizSelCsZzz.Test
             {
                 it("must be called before waiting on ajax", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                    browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
 
                     var exceptions = Assert.Throws<InvalidOperationException>(delegate
                     {
@@ -53,7 +53,7 @@ namespace SizSelCsZzz.Test
 
                 it("installs some javascript code for monitoring", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                    browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
 
                     expect(() => !JQueryAjaxWaiter.WasMonitoringStarted(browser));
 
@@ -64,7 +64,7 @@ namespace SizSelCsZzz.Test
 
                 it("doesnt reinstall that javascript code", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                    browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
                     
                     browser.MonitorJQueryAjax();
 
@@ -81,7 +81,7 @@ namespace SizSelCsZzz.Test
             {
                 it("returns false initially", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                    browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
 
                     browser.MonitorJQueryAjax();
 
@@ -105,12 +105,12 @@ namespace SizSelCsZzz.Test
                     
                     arrange(delegate
                     {
-                        browser.Navigate().GoToUrl("http://127.0.0.3:8083/pageWithJQuery.html");
+                        browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
 
                         browser.MonitorJQueryAjax();
 
                         var executor = browser as IJavaScriptExecutor;
-                        executor.ExecuteScript("jQuery.ajax('http://127.0.0.4:8083/');");
+                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(slowServer.UrlFor("")) + ");");
                     });
 
                     then("IsAjaxPending returns true", delegate

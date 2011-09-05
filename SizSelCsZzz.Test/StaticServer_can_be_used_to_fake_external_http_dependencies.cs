@@ -23,7 +23,7 @@ namespace SizSelCsZzz.Test
 
             it("can load html resources", delegate
             {
-                var homepage = webClient.DownloadString("http://127.0.0.3:8081/Homepage.html");
+                var homepage = webClient.DownloadString(server.UrlFor("Homepage.html"));
                 
                 expect(() => homepage.Contains("winning!"));
 
@@ -49,7 +49,7 @@ namespace SizSelCsZzz.Test
                 {
                     it(String.Format("can load file {0} with content-type {1}", kvp.Key, kvp.Value), delegate
                     {
-                        webClient.DownloadString("http://127.0.0.3:8081/" + kvp.Key);
+                        webClient.DownloadString(server.UrlFor(kvp.Key));
 
                         expect(() => webClient.ResponseHeaders["Content-Type"] == kvp.Value);
                     });

@@ -21,7 +21,7 @@ namespace SizSelCsZzz.Test
 
                 it("counts elements on a page", delegate
                 {
-                    browser.Navigate().GoToUrl("http://127.0.0.3:8081/list.html");
+                    browser.Navigate().GoToUrl(server.UrlFor("list.html"));
 
                     expect(() => browser.CountElementsMatching("li:contains('foo'), li:contains('bar')") == 2);
                 });

@@ -7,18 +7,26 @@ namespace SizSelCsZzz.Extras
     {
         readonly int ServerWaitTimeout = 5000;
 
+        public string BaseUrl;
         HttpListener _listener;
 
         public FakeServer(string host, int port)
         {
+            BaseUrl = "http://" + host + ":" + port + "/";
+
             _listener = new HttpListener();
             _listener.Start();
-            _listener.Prefixes.Add("http://" + host + ":" + port + "/");
+            _listener.Prefixes.Add(BaseUrl);
         }
 
         public void Start(Action<HttpListenerRequest, HttpListenerResponse> action)
         {
             _listener.BeginGetContext(AsyncCallback(action), null); 
+        }
+
+        public string UrlFor(string path)
+        {
+            return BaseUrl + path.TrimStart('/');
         }
 
         AsyncCallback AsyncCallback(Action<HttpListenerRequest, HttpListenerResponse> action)
