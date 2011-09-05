@@ -10,11 +10,16 @@ namespace SizSelCsZzz
     {
         public static int MaxWaitMS = 5000;
 
-        public static IWebElement WaitForElement(this IWebDriver browser, By condition, int? maxWaitMS = null)
+        public static IWebElement WaitForElement(this IWebDriver browser, By condition)
+        {
+            return browser.WaitForElementEx(condition, MaxWaitMS);
+        }
+
+        public static IWebElement WaitForElementEx(this IWebDriver browser, By condition, int? maxWaitMS = null)
         {
             maxWaitMS = maxWaitMS ?? MaxWaitMS;
 
-            return new WebDriverWait(browser, TimeSpan.FromMilliseconds(MaxWaitMS)).Until(driver => driver.FindElement(condition));
+            return new WebDriverWait(browser, TimeSpan.FromMilliseconds((double)maxWaitMS)).Until(driver => driver.FindElement(condition));
         }
 
         public static string GetBodyText(this IWebDriver browser)

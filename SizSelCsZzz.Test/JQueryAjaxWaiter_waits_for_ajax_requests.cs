@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
 using SizSelCsZzz.Other;
+using SizSelCsZzz.Test.jquerySource;
 
 namespace SizSelCsZzz.Test
 {
@@ -14,14 +15,11 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var jquery = beforeAll(() => ResourceLoader.LoadResourceRelativeToType(this.GetType(), "jquerySource.jquery-1.6.2.js"));
-            expect(() => !string.IsNullOrEmpty(jquery));
-
             var server = arrange(() => new StaticServer("127.0.0.3", 8083)
                 {
                     {"homepage.html", "<html></html>"},
-                    {"pageWithJQuery.html", HtmlLoadingJQuery()},
-                    {"jquery.js",jquery},
+                    {"pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery("http://127.0.0.3:8083/jquery.js")},
+                    {"jquery.js",JQueryUtil.GetJQuerySource()},
                 }.Start());
 
             it("requires javascript", delegate
@@ -145,14 +143,6 @@ namespace SizSelCsZzz.Test
                     it("returns true if an ajax request starts and finishes");
                 });
             });
-        }
-
-        string HtmlLoadingJQuery(string content = "")
-        {
-            return @"<html>
-<script src='http://127.0.0.3:8083/jquery.js'></script>
-" + content + @"
-</html>";
         }
     }
 }

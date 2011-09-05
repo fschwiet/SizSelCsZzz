@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NJasmine;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz.Test
 {
-    public class can_use_Sizzle_css_selectors : SpecificationForAllBrowsers
+    public class BySizzle_can_find_elements_by_Sizzle_css_selector : SpecificationForAllBrowsers
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
@@ -48,6 +49,16 @@ namespace SizSelCsZzz.Test
                     then("FindElement can handle special characters", delegate
                     {
                         expect(() => browser.FindElement(BySizzle.CssSelector("li:contains('\"quotes\"')")) != null);
+                    });
+
+                    then("FindElement reports a useful error if the element is not found", delegate
+                    {
+                        var e = Assert.Throws<NoSuchElementException>(delegate
+                        {
+                            browser.FindElement(BySizzle.CssSelector("div:contains('This solves everything')"));
+                        });
+
+                        expect(() => e.Message.Contains("Could not find element matching css selector '\"div:contains('This solves everything')\"'"));
                     });
                 });
             });

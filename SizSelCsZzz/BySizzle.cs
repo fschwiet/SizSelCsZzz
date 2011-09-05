@@ -35,7 +35,14 @@ namespace SizSelCsZzz
 
         public override IWebElement FindElement(ISearchContext context)
         {
-            return FindElements(context).First();
+            var found = FindElements(context);
+
+            if (found.Count == 0)
+            {
+                throw new NoSuchElementException("Could not find element matching css selector '" + _selector + "'.");
+            }
+
+            return found.First();
         }
 
         private static IEnumerable<object> GetMatches(IJavaScriptExecutor scriptExecutor, string javascriptExpression)

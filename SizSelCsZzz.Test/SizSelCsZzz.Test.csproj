@@ -71,12 +71,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="can_use_Sizzle_css_selectors.cs" />
+    <Compile Include="BySizzle_can_find_elements_by_Sizzle_css_selector.cs" />
     <Compile Include="JQueryAjaxWaiter_waits_for_ajax_requests.cs" />
+    <Compile Include="jquerySource\JQueryUtil.cs" />
     <Compile Include="miscellaneous_webdriver_extension_methods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationForAllBrowsers.cs" />
     <Compile Include="StaticServer_can_be_used_to_fake_external_http_dependencies.cs" />
+    <Compile Include="extension_method_allows_waiting_for_an_element.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
