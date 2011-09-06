@@ -14,12 +14,12 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = arrange(() => new StaticServer("127.0.0.3", 8083)
+            var server = beforeAll(() => new StaticServer("127.0.0.3", 8083)
                 {
                     {"jquery.js", JQueryUtil.GetJQuerySource()}
                 }.Start());
 
-            arrange(() => server.Add("delay.html", 
+            beforeAll(() => server.Add("delay.html", 
                 JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"), "<div> Hello, world. </div>")));
 
             describe("WaitForElement", delegate
@@ -38,12 +38,12 @@ namespace SizSelCsZzz.Test
                         browser.FindElement(By.CssSelector("div div li ul ol lol.so img.nothappening"));
                     }).Message;
 
-                    var e = Assert.Throws<TimeoutException>(delegate
+                    var e = Assert.Throws<NoSuchElementException>(delegate
                     {
                         browser.WaitForElement(By.CssSelector("div div li ul ol lol.so img.nothappening"));
                     });
 
-                    expect(() => expectedMessage == e.InnerException.Message);
+                    expect(() => expectedMessage == e.Message);
                 });
 
                 it("will wait for elements", delegate
@@ -53,6 +53,14 @@ setTimeout(function() { $('body').append('<div>Better late than never.</div>'); 
 ");
 
                     expect(() => browser.WaitForElement(BySizzle.CssSelector("div:contains('Better late than never.')")) != null);
+                });
+
+                beforeAll(() => server.Add("somepage.html", "<html><body><ul><li>LIST ITEM</li></ul></body></html>"));
+
+                it("can be used transitiviely", delegate
+                {
+                    browser.Navigate().GoToUrl(server.UrlFor("somepage.html"));
+                    expect(() => browser.WaitForElement(BySizzle.CssSelector("ul")).WaitForElement(BySizzle.CssSelector("li:contains('LIST ITEM')")) != null);
                 });
             });
         }

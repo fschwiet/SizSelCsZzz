@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -9,17 +10,36 @@ namespace SizSelCsZzz
     public static class WebDriverExtensions
     {
         public static int MaxWaitMS = 5000;
+        public static int WaitIntervalMS = 100;
 
-        public static IWebElement WaitForElement(this IWebDriver browser, By condition)
+        public static IWebElement WaitForElement(this ISearchContext browser, By condition)
         {
-            return browser.WaitForElementEx(condition, MaxWaitMS);
+            return browser.WaitForElementEx(condition);
         }
 
-        public static IWebElement WaitForElementEx(this IWebDriver browser, By condition, int? maxWaitMS = null)
+        public static IWebElement WaitForElementEx(this ISearchContext browser, By condition, int? maxWaitMS = null, int? waitIntervalMS = null)
         {
             maxWaitMS = maxWaitMS ?? MaxWaitMS;
+            waitIntervalMS = waitIntervalMS ?? WaitIntervalMS;
 
-            return new WebDriverWait(browser, TimeSpan.FromMilliseconds((double)maxWaitMS)).Until(driver => driver.FindElement(condition));
+            DateTime finishTime = DateTime.UtcNow.AddMilliseconds(maxWaitMS.Value);
+
+            do
+            {
+                try
+                {
+                    return browser.FindElement(condition);
+                }
+                catch (Exception)
+                {
+                    if (DateTime.UtcNow > finishTime)
+                    {
+                        throw;
+                    }
+                }
+
+                Thread.Sleep(waitIntervalMS.Value);
+            } while (true);
         }
 
         public static string GetBodyText(this IWebDriver browser)

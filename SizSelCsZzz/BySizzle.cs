@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Internal;
 using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz
@@ -27,6 +28,11 @@ namespace SizSelCsZzz
             var javascriptExpression = "return Sizzle(" + _selector + ")";
 
             var scriptExecutor = context as IJavaScriptExecutor;
+
+            if (scriptExecutor == null && context is IWrapsDriver)
+            {
+                scriptExecutor = (context as IWrapsDriver).WrappedDriver as IJavaScriptExecutor;
+            }
 
             var result = new ReadOnlyCollection<IWebElement>(GetMatches(scriptExecutor, javascriptExpression).Cast<IWebElement>().ToList());
 
