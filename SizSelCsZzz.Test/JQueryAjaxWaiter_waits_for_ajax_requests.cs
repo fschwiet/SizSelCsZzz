@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NJasmine;
@@ -98,11 +99,13 @@ namespace SizSelCsZzz.Test
                         result.Start((request, response) =>
                         {
                             waitHandle.WaitOne();
-                            response.Close();
+                            response.OutputStream.Close();
                         });
                         return result;
                     });
-                    
+
+                    afterEach(() => waitHandle.Set());
+
                     arrange(delegate
                     {
                         browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
