@@ -10,7 +10,7 @@ using SizSelCsZzz.Test.jquerySource;
 
 namespace SizSelCsZzz.Test
 {
-    public class extension_method_allows_waiting_for_an_element : SpecificationForAllBrowsers
+    public class WaitForElement_waits_until_Selenium_finds_an_element : SpecificationForAllBrowsers
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
