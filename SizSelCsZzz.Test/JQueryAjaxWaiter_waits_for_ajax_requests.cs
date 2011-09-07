@@ -24,7 +24,7 @@ namespace SizSelCsZzz.Test
 
             beforeAll(() => server.Add("pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"))));
 
-            it("requires javascript", delegate
+            it("requires jQuery", delegate
             {
                 browser.Navigate().GoToUrl(server.UrlFor("homepage.html"));
 

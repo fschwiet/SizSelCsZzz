@@ -30,26 +30,26 @@ namespace SizSelCsZzz.Test
                     </html>"}
             }.Start());
 
-            when("Selenium is used to test a Hello, World page", delegate
+            describe("BySizzle.CssSelector can find elements by Sizzle CSS selector", delegate
             {
                 arrange(() => browser.Navigate().GoToUrl(server.UrlFor("HelloWorld.html")));
 
-                then("FindElements can be used to find an element", delegate
+                it("can be used to find an element", delegate
                 {
                     expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello')")).Count() == 1);
                 });
 
-                then("FindElement can be used to find an element", delegate
+                it("can be used to find an element", delegate
                 {
                     expect(() => browser.FindElement(BySizzle.CssSelector("div:contains('Hello')")) != null);
                 });
 
-                then("FindElement can handle special characters", delegate
+                it("can handle special characters", delegate
                 {
                     expect(() => browser.FindElement(BySizzle.CssSelector("li:contains('\"quotes\"')")) != null);
                 });
 
-                then("FindElement reports a useful error if the element is not found", delegate
+                it("reports a useful error if the element is not found", delegate
                 {
                     var e = Assert.Throws<NoSuchElementException>(delegate
                     {
@@ -83,7 +83,6 @@ namespace SizSelCsZzz.Test
                     });
                 });
             });
-
         }
     }
 }
