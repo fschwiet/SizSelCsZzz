@@ -77,7 +77,10 @@ namespace SizSelCsZzz.Test
 
                     expect(() => browser.FindElement(paragraphFinder) != null);
 
-                    expect(() => browser.FindElement(BySizzle.CssSelector("ul")).FindElement(paragraphFinder) == null);
+                    Assert.Throws<NoSuchElementException>(delegate
+                    {
+                        expect(() => browser.FindElement(BySizzle.CssSelector("ul")).FindElement(paragraphFinder) == null);
+                    });
                 });
             });
 

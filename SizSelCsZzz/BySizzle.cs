@@ -25,8 +25,6 @@ namespace SizSelCsZzz
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
-            var javascriptExpression = "return Sizzle(" + _selector + ")";
-
             var scriptExecutor = context as IJavaScriptExecutor;
 
             if (scriptExecutor == null && context is IWrapsDriver)
@@ -34,7 +32,20 @@ namespace SizSelCsZzz
                 scriptExecutor = (context as IWrapsDriver).WrappedDriver as IJavaScriptExecutor;
             }
 
-            var result = new ReadOnlyCollection<IWebElement>(GetMatches(scriptExecutor, javascriptExpression).Cast<IWebElement>().ToList());
+            EnsureSizzleIsLoaded(scriptExecutor);
+
+            IEnumerable<object> scriptResult = null;
+
+            if (context is IWebElement)
+            {
+                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return Sizzle(" + _selector + ", arguments[0])", context);
+            }
+            else
+            {
+                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return Sizzle(" + _selector + ")");
+            }
+
+            var result = new ReadOnlyCollection<IWebElement>(scriptResult.Cast<IWebElement>().ToList());
 
             return result;
         }
@@ -49,13 +60,6 @@ namespace SizSelCsZzz
             }
 
             return found.First();
-        }
-
-        private static IEnumerable<object> GetMatches(IJavaScriptExecutor scriptExecutor, string javascriptExpression)
-        {
-            EnsureSizzleIsLoaded(scriptExecutor);
-
-            return ((IEnumerable<object>) scriptExecutor.ExecuteScript(javascriptExpression));
         }
 
         static void EnsureSizzleIsLoaded(IJavaScriptExecutor scriptExecutor)
