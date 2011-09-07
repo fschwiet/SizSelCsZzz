@@ -38,12 +38,12 @@ namespace SizSelCsZzz.Test
                         browser.FindElement(By.CssSelector("div div li ul ol lol.so img.nothappening"));
                     }).Message;
 
-                    var e = Assert.Throws<NoSuchElementException>(delegate
+                    var actualException = Assert.Throws<NoSuchElementException>(delegate
                     {
-                        browser.WaitForElement(By.CssSelector("div div li ul ol lol.so img.nothappening"));
+                        browser.WaitForElement(BySizzle.CssSelector("div div li ul ol lol.so img.nothappening"));
                     });
 
-                    expect(() => expectedMessage == e.Message);
+                    expect(() => actualException.Message.Contains(expectedMessage));
                 });
 
                 it("will wait for elements", delegate
