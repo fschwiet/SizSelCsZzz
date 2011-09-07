@@ -16,12 +16,13 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = arrange(() => new StaticServer("127.0.0.3", 8083)
+            var server = beforeAll(() => new StaticServer()
                 {
                     {"homepage.html", "<html></html>"},
-                    {"pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery("http://127.0.0.3:8083/jquery.js")},
                     {"jquery.js",JQueryUtil.GetJQuerySource()},
                 }.Start());
+
+            beforeAll(() => server.Add("pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"))));
 
             it("requires javascript", delegate
             {
@@ -95,7 +96,7 @@ namespace SizSelCsZzz.Test
 
                     var slowServer = beforeAll(delegate
                     {
-                        var result = new FakeServer("127.0.0.4", 8083);
+                        var result = new FakeServer();
                         result.Start((request, response) =>
                         {
                             waitHandle.WaitOne();

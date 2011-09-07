@@ -12,7 +12,7 @@ namespace SizSelCsZzz.Test
     {
         public override void Specify()
         {
-            var server = beforeAll(() => new StaticServer("127.0.0.3", 8081)
+            var server = beforeAll(() => new StaticServer()
             {
                 {"Homepage.html", "<html><body>winning!</body></html>"},
                 {"Homepage.htm", "<html><body>winning!</body></html>"},

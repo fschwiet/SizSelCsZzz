@@ -19,6 +19,30 @@ namespace SizSelCsZzz.Extras
             _listener.Prefixes.Add(BaseUrl);
         }
 
+        public FakeServer()
+        {
+            //  Going to try to find a port thats available.  Trying in the range 8080-8090.
+
+            var host = "localhost";
+            var port = 8080;
+
+            while(IsThatPortOpen.HasExistingTCPListener(port))
+            {
+                port++;
+
+                if (port > 8090)
+                {
+                    throw new Exception("Couldn't find available port.. (checked 8080-8090).");
+                }
+            }
+
+            BaseUrl = "http://" + host + ":" + port + "/";
+
+            _listener = new HttpListener();
+            _listener.Start();
+            _listener.Prefixes.Add(BaseUrl);
+        }
+
         public void Start(Action<HttpListenerRequest, HttpListenerResponse> action)
         {
             _listener.BeginGetContext(AsyncCallback(action), null); 

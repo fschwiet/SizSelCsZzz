@@ -14,7 +14,7 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new StaticServer("127.0.0.3", 8083)
+            var server = beforeAll(() => new StaticServer()
                 {
                     {"jquery.js", JQueryUtil.GetJQuerySource()}
                 }.Start());
@@ -40,7 +40,7 @@ namespace SizSelCsZzz.Test
 
                     var actualException = Assert.Throws<NoSuchElementException>(delegate
                     {
-                        browser.WaitForElement(BySizzle.CssSelector("div div li ul ol lol.so img.nothappening"));
+                        browser.WaitForElement(By.CssSelector("div div li ul ol lol.so img.nothappening"));
                     });
 
                     expect(() => actualException.Message.Contains(expectedMessage));

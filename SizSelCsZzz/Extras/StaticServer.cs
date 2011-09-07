@@ -14,7 +14,7 @@ namespace SizSelCsZzz.Extras
         Dictionary<string, string> _staticContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         Dictionary<string, string> _contentTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
-        public StaticServer(string host, int port) : base(host, port)
+        public StaticServer()
         {
             WithContentType("html", ContentType_Html);
             WithContentType("htm", ContentType_Html);

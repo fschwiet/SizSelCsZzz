@@ -14,7 +14,7 @@ namespace SizSelCsZzz.Test
         {
             describe("CountElementsMatching", delegate
             {
-                var server = arrange(() => new StaticServer("127.0.0.3", 8081)
+                var server = arrange(() => new StaticServer()
                 {
                     {"list.html", "<ul><li>foo</li><li>bar</li><li>baz</li></ul"}
                 }.Start());

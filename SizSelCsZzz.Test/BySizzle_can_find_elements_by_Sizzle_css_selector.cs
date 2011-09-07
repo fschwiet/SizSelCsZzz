@@ -14,7 +14,7 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new StaticServer("127.0.0.3", 8081)
+            var server = beforeAll(() => new StaticServer()
             {
                 {"HelloWorld.html", @"
                     <html>
