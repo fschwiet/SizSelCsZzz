@@ -30,11 +30,10 @@ namespace SizSelCsZzz.Test
                 expect(() => webClient.ResponseHeaders["Content-Type"] == StaticServer.ContentType_Html);
             });
 
-            var expectedBarContentType = "baz/example";
-
-
             describe("the server can have arbitrary resources added during test setup", delegate
             {
+                var expectedBarContentType = "baz/example";
+
                 beforeAll(() => server
                     .Add("foo.bar", "extra special")
                     .WithContentType("bar", expectedBarContentType));
