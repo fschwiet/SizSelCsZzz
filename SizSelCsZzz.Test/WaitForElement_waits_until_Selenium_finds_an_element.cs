@@ -54,27 +54,6 @@ setTimeout(function() { $('body').append('<div>Better late than never.</div>'); 
 
                     expect(() => browser.WaitForElement(BySizzle.CssSelector("div:contains('Better late than never.')")) != null);
                 });
-
-                describe("WaitForElement can be used transitively", delegate
-                {
-                    beforeAll(() => server.Add("somepage.html", "<html><body><ul><li>LIST ITEM</li></ul><p>PARAGRAPH</p></body></html>"));
-
-                    arrange(() => browser.Navigate().GoToUrl(server.UrlFor("somepage.html")));
-
-                    it("matches descendant nodes", delegate
-                    {
-                        expect(() => browser.WaitForElement(BySizzle.CssSelector("ul")).WaitForElement(BySizzle.CssSelector("li:contains('LIST ITEM')")) != null);
-                    });
-
-                    it("does not match nondescendant nodes", delegate
-                    {
-                        By paragraphFinder = BySizzle.CssSelector("p:contains('PARAGRAPH')");
-                        
-                        expect(() => browser.WaitForElement(paragraphFinder) != null);
-                        
-                        expect(() => browser.WaitForElement(BySizzle.CssSelector("ul")).WaitForElement(paragraphFinder) == null);
-                    });
-                });
             });
         }
     }

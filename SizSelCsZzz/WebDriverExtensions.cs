@@ -12,12 +12,12 @@ namespace SizSelCsZzz
         public static int MaxWaitMS = 5000;
         public static int WaitIntervalMS = 100;
 
-        public static IWebElement WaitForElement(this ISearchContext browser, By condition)
+        public static IWebElement WaitForElement(this ISearchContext node, By condition)
         {
-            return browser.WaitForElementEx(condition);
+            return node.WaitForElementEx(condition);
         }
 
-        public static IWebElement WaitForElementEx(this ISearchContext browser, By condition, int? maxWaitMS = null, int? waitIntervalMS = null)
+        public static IWebElement WaitForElementEx(this ISearchContext node, By condition, int? maxWaitMS = null, int? waitIntervalMS = null)
         {
             maxWaitMS = maxWaitMS ?? MaxWaitMS;
             waitIntervalMS = waitIntervalMS ?? WaitIntervalMS;
@@ -28,7 +28,7 @@ namespace SizSelCsZzz
             {
                 try
                 {
-                    return browser.FindElement(condition);
+                    return node.FindElement(condition);
                 }
                 catch (Exception)
                 {
