@@ -34,12 +34,12 @@ namespace SizSelCsZzz.Test
             {
                 arrange(() => browser.Navigate().GoToUrl(server.UrlFor("HelloWorld.html")));
 
-                it("can be used to find an element", delegate
+                it("can be used with FindElements", delegate
                 {
                     expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello')")).Count() == 1);
                 });
 
-                it("can be used to find an element", delegate
+                it("can be used with FindElement", delegate
                 {
                     expect(() => browser.FindElement(BySizzle.CssSelector("div:contains('Hello')")) != null);
                 });
