@@ -34,16 +34,7 @@ namespace SizSelCsZzz
 
             EnsureSizzleIsLoaded(scriptExecutor);
 
-            IEnumerable<object> scriptResult = null;
-
-            if (context is IWebElement)
-            {
-                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return Sizzle(" + _selector + ", arguments[0])", context);
-            }
-            else
-            {
-                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return Sizzle(" + _selector + ")");
-            }
+            IEnumerable<object> scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return Sizzle(" + _selector + ", arguments[0])", context);
 
             var result = new ReadOnlyCollection<IWebElement>(scriptResult.Cast<IWebElement>().ToList());
 
