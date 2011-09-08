@@ -1,4 +1,6 @@
 
+Available on Nuget: http://nuget.org/List/Packages/SizSelCsZzz
+
 If you want to do something similar in java, you can follow this blog post:
 http://prototypic.net/blog/creating-a-sizzle-css-selector-handler-for-selenium2webdriver-in-java/.  The original translation was fairly direct.
 
