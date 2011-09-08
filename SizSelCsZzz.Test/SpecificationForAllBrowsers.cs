@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Remote;
 
 namespace SizSelCsZzz.Test
 {
@@ -30,9 +31,14 @@ namespace SizSelCsZzz.Test
 
             given("using Internet Explorer", delegate
             {
-                this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
+                //this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
 
-                var browser = arrange(() => new InternetExplorerDriver());
+                var capabilities = DesiredCapabilities.InternetExplorer();
+                capabilities.SetCapability("ignoreProtectedModeSettings", true);
+
+                var browser = arrange(() => new InternetExplorerDriver(capabilities));
+
+                cleanup(() => browser.Close());
 
                 SpecifyForBrowser(browser);
             });
