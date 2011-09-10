@@ -9,7 +9,11 @@ properties {
 import-module .\tools\PSUpdateXML.psm1
 . .\psake_ext.ps1
 
-task default -depends Build,RunTests,BuildNuget
+task default -depends TraceSourceControlCommit,Build,RunTests,BuildNuget
+
+task TraceSourceControlCommit {
+    git log -1 --oneline | % { "Current commit: " + $_ }
+}
 
 task Cleanup {
     if (test-path $buildDirectory) {
