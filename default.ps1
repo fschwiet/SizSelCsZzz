@@ -1,7 +1,7 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.0.13"
+    $version = "0.0.14"
 
     $shortDescription = "An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting."
 }
@@ -88,8 +88,8 @@ task BuildNuget -depends RunTests {
 
             set-xml -exactlyOnce "//ns:dependencies" ""
             append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
-            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.5`" />"
-            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.Support`" version=`"2.5`" />"
+            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.6`" />"
+            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.Support`" version=`"2.6`" />"
 
             append-xml "." "<summary>$shortDescription  This library requires .NET 4.</summary>"
         }
