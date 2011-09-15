@@ -38,8 +38,8 @@ namespace SizSelCsZzz.Test
                 it("can be used with FindElements", delegate
                 {
                     expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello')")).Count() == 1);
-                    expect(() => browser.FindElements(BySizzle.CssSelector("div.last_li")).Count() == 1);
-                    expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello'), div.last_li")).Count() == 2);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("li.last_li")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello'), li.last_li")).Count() == 2);
                 });
 
                 it("can be used with FindElement", delegate
