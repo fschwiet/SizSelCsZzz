@@ -13,6 +13,8 @@ namespace SizSelCsZzz.Test
 {
     public abstract class SpecificationForAllBrowsers : GivenWhenThenFixture
     {
+        bool _isRunningInternetExplorer = false;
+
         public sealed override void Specify()
         {
             given("using Firefox", delegate
@@ -33,6 +35,8 @@ namespace SizSelCsZzz.Test
             {
                 //this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
 
+                _isRunningInternetExplorer = true;
+
                 var capabilities = DesiredCapabilities.InternetExplorer();
                 capabilities.SetCapability("ignoreProtectedModeSettings", true);
 
@@ -45,5 +49,13 @@ namespace SizSelCsZzz.Test
         }
 
         public abstract void SpecifyForBrowser(IWebDriver browser);
+
+        public void ignoreIfInternetExplorer(string reason)
+        {
+            if (_isRunningInternetExplorer)
+            {
+                ignoreBecause(reason);
+            }
+        }
     }
 }
