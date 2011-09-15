@@ -6,10 +6,10 @@
     $("body").bind("ajaxStart", function () {
         isRequestPending = true;
     })
-//    .bind("ajaxStop", function () {
+    .bind("ajaxStop", function () {
 ////        ajaxStartIndex++;
-//        isRequestPending = false;
-//    });
+        isRequestPending = false;
+    });
 
     window.SizSelCsZzz_IsRequestPending = function () {
         return isRequestPending;
