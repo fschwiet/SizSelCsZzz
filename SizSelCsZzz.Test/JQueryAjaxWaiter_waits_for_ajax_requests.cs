@@ -128,7 +128,7 @@ namespace SizSelCsZzz.Test
 
                         then("IsAjaxPending returns false", delegate
                         {
-                            expect(() => browser.IsAjaxPending());
+                            expect(() => !browser.IsAjaxPending());
                         });
                     });
                 });
