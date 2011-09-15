@@ -25,6 +25,7 @@ namespace SizSelCsZzz.Test
                             <li></li>
                             <li></li>
                             <li>""quotes""</li>
+                            <li class='last_li'></li>
                         </ul>
                     </body>
                     </html>"}
@@ -37,6 +38,8 @@ namespace SizSelCsZzz.Test
                 it("can be used with FindElements", delegate
                 {
                     expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello')")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("div.last_li")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("div:contains('Hello'), div.last_li")).Count() == 1);
                 });
 
                 it("can be used with FindElement", delegate
