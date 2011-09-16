@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NJasmine;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
+using SizSelCsZzz.jquerySource;
 using SizSelCsZzz.Other;
 using SizSelCsZzz.Test.jquerySource;
 
@@ -19,7 +19,7 @@ namespace SizSelCsZzz.Test
             var server = beforeAll(() => new StaticServer()
                 {
                     {"homepage.html", "<html></html>"},
-                    {"jquery.js",JQueryUtil.GetJQuerySource()},
+                    {"jquery.js",JQuerySource.GetJQuerySource()},
                 }.Start());
 
             beforeAll(() => server.Add("pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"))));

@@ -58,6 +58,7 @@
     <Compile Include="Extras\IsThatPortOpen.cs" />
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
+    <Compile Include="jquerySource\JQuerySource.cs" />
     <Compile Include="Other\JQueryNotInstalledException.cs" />
     <Compile Include="WebDriverExtensions.cs" />
     <Compile Include="BySizzle.cs" />
@@ -73,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Other\jqueryAjaxMonitor.js" />
     <EmbeddedResource Include="sizzleSource\sizzle.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="jquerySource\jquery-1.6.2.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NJasmine;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
+using SizSelCsZzz.jquerySource;
 using SizSelCsZzz.Test.jquerySource;
 
 namespace SizSelCsZzz.Test
@@ -16,7 +16,7 @@ namespace SizSelCsZzz.Test
         {
             var server = beforeAll(() => new StaticServer()
                 {
-                    {"jquery.js", JQueryUtil.GetJQuerySource()}
+                    {"jquery.js", JQuerySource.GetJQuerySource()}
                 }.Start());
 
             beforeAll(() => server.Add("delay.html", 
