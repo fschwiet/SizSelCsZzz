@@ -6,6 +6,7 @@ using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Internal;
 using SizSelCsZzz.Extras;
+using SizSelCsZzz.Other;
 
 namespace SizSelCsZzz
 {
@@ -86,25 +87,7 @@ namespace SizSelCsZzz
 
         static void InjectSizzle(IJavaScriptExecutor driver)
         {
-            var sizzleScript = ResourceLoader.LoadResourceRelativeToType(typeof (BySizzle), "sizzleSource.sizzle.js");
-
-            driver.ExecuteScript(
-                "var scriptSource = " +
-                Newtonsoft.Json.JsonConvert.SerializeObject(sizzleScript) + ";"
-                + @"
-var newScript = document.createElement('script');
-newScript.type = 'text/javascript';
-
-if (typeof (newScript.appendChild) == 'function') {
-    var scriptContent = document.createTextNode(scriptSource);
-    newScript.appendChild(scriptContent);
-} else {
-    newScript.text = scriptSource;
-}
-
-var headID = document.getElementsByTagName('head')[0];
-headID.appendChild(newScript);
-");
+            BigScriptRunner.RunBigScript(driver, ResourceLoader.LoadResourceRelativeToType(typeof (BySizzle), "sizzleSource.sizzle.js"));
         }
     }
 }

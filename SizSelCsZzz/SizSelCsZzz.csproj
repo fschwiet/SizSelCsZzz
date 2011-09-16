@@ -59,6 +59,7 @@
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
     <Compile Include="jquerySource\JQuerySource.cs" />
+    <Compile Include="Other\BigScriptRunner.cs" />
     <Compile Include="Other\JQueryNotInstalledException.cs" />
     <Compile Include="WebDriverExtensions.cs" />
     <Compile Include="BySizzle.cs" />
