@@ -1,7 +1,8 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.0.15"
+    $version = "0.0.16"
+    $releaseNotes = "Built against Selenium Webdriver 2.7"
 
     $shortDescription = "An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting."
 }
@@ -73,24 +74,23 @@ task BuildNuget -depends RunTests {
 
     update-xml "SizSelCsZzz.nuspec" {
 
-        add-xmlnamespace "ns" "http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+        for-xml "//package/metadata" {
+            set-xml -exactlyOnce "//version" "$version.0"
+            set-xml -exactlyOnce "//owners" "fschwiet"
+            set-xml -exactlyOnce "//authors" "Frank Schwieterman"
+            set-xml -exactlyOnce "//description" $shortDescription
 
-        for-xml "//ns:package/ns:metadata" {
-            set-xml -exactlyOnce "//ns:version" "$version.0"
-            set-xml -exactlyOnce "//ns:owners" "fschwiet"
-            set-xml -exactlyOnce "//ns:authors" "Frank Schwieterman"
-            set-xml -exactlyOnce "//ns:description" $shortDescription
+            set-xml -exactlyOnce "//licenseUrl" "https://github.com/fschwiet/SizSelCsZzz/blob/master/LICENSE.txt"
+            set-xml -exactlyOnce "//projectUrl" "https://github.com/fschwiet/SizSelCsZzz/"
+            remove-xml -exactlyOnce "//iconUrl"
+            set-xml -exactlyOnce "//tags" "Selenium WebDriver Browser Automation"
 
-            set-xml -exactlyOnce "//ns:licenseUrl" "https://github.com/fschwiet/SizSelCsZzz/blob/master/LICENSE.txt"
-            set-xml -exactlyOnce "//ns:projectUrl" "https://github.com/fschwiet/SizSelCsZzz/"
-            remove-xml -exactlyOnce "//ns:iconUrl"
-            set-xml -exactlyOnce "//ns:tags" "Selenium WebDriver Browser Automation"
+            set-xml -exactlyOnce "//dependencies" ""
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.6`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"2.6`" />"
 
-            set-xml -exactlyOnce "//ns:dependencies" ""
-            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0`" />"
-            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.6`" />"
-            append-xml -exactlyOnce "//ns:dependencies" "<dependency id=`"Selenium.Support`" version=`"2.6`" />"
-
+            append-xml "." "<releaseNotes>$releaseNotes</releaseNotes>";
             append-xml "." "<summary>$shortDescription  This library requires .NET 4.</summary>"
         }
     }
