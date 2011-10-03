@@ -7,14 +7,14 @@ using System.Text;
 
 namespace SizSelCsZzz.Extras
 {
-    public class StaticServer : FakeServer, IEnumerable<KeyValuePair<string,string>>
+    public class StaticServer : FakeServer, IEnumerable
     {
         public static readonly string ContentType_Html = "text/html; charset=UTF-8";
         public static readonly string ContentType_Javascript = "text/javascript; charset=UTF-8";
 
-        Dictionary<string, string> _staticContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         Dictionary<string, string> _contentTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-        Dictionary<string, Action<RequestResponseContext>> _pathHandler = new Dictionary<string, Action<RequestResponseContext>>();
+        Dictionary<string, Action<RequestResponseContext>> _pathHandler = 
+            new Dictionary<string, Action<RequestResponseContext>>(StringComparer.InvariantCultureIgnoreCase);
 
         public StaticServer()
         {
@@ -25,8 +25,16 @@ namespace SizSelCsZzz.Extras
 
         public StaticServer Add(string path, string content)
         {
-            _staticContent[path.TrimStart('/')] = content;
-            return this;
+            return Add(path, context =>
+            {
+                using (var stream = context.Response.OutputStream)
+                using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                {
+                    writer.Write(content);
+                    writer.Flush();
+                }
+
+            });
         }
 
         public class RequestResponseContext
@@ -39,9 +47,9 @@ namespace SizSelCsZzz.Extras
         public StaticServer Add(string path, Action<RequestResponseContext> handler)
         {
             _pathHandler[path.TrimStart('/')] = handler;
+
             return this;
         }
-
 
         public StaticServer Start()
         {
@@ -57,19 +65,10 @@ namespace SizSelCsZzz.Extras
 
                 string body;
 
-                if (_staticContent.ContainsKey(localPath))
+                if (_pathHandler.ContainsKey(localPath))
                 {
-                    body = _staticContent[localPath];
+                    AddContentTypeIfAvailable(localPath, response);
 
-                    using (var stream = response.OutputStream)
-                    using (var writer = new StreamWriter(stream, Encoding.UTF8))
-                    {
-                        writer.Write(body);
-                        writer.Flush();
-                    }
-                }
-                else if (_pathHandler.ContainsKey(localPath))
-                {
                     _pathHandler[localPath](new RequestResponseContext()
                     {
                         Request = request,
@@ -84,25 +83,22 @@ namespace SizSelCsZzz.Extras
 
                     return;
                 }
-
-                var extension = localPath.Substring(localPath.LastIndexOf(".") + 1);
-
-                if (_contentTypes.ContainsKey(extension))
-                    response.Headers.Add("Content-Type", _contentTypes[extension]);
-                
             });
 
             return this;
         }
 
-        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        void AddContentTypeIfAvailable(string localPath, HttpListenerResponse response)
         {
-            return _staticContent.GetEnumerator();
+            var extension = localPath.Substring(localPath.LastIndexOf(".") + 1);
+
+            if (_contentTypes.ContainsKey(extension))
+                response.Headers.Add("Content-Type", _contentTypes[extension]);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _staticContent.GetEnumerator();
+            return _pathHandler.GetEnumerator();
         }
 
         public StaticServer WithContentType(string extension, string expectedBarContentType)
