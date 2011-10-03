@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace SizSelCsZzz.Extras
@@ -13,6 +14,7 @@ namespace SizSelCsZzz.Extras
 
         Dictionary<string, string> _staticContent = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         Dictionary<string, string> _contentTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        Dictionary<string, Action<RequestResponseContext>> _pathHandler = new Dictionary<string, Action<RequestResponseContext>>();
 
         public StaticServer()
         {
@@ -23,17 +25,31 @@ namespace SizSelCsZzz.Extras
 
         public StaticServer Add(string path, string content)
         {
-            _staticContent[path] = content;
+            _staticContent[path.TrimStart('/')] = content;
             return this;
         }
+
+        public class RequestResponseContext
+        {
+            public HttpListenerRequest Request;
+            public HttpListenerResponse Response;
+            public StaticServer Server;
+        }
+
+        public StaticServer Add(string path, Action<RequestResponseContext> handler)
+        {
+            _pathHandler[path.TrimStart('/')] = handler;
+            return this;
+        }
+
 
         public StaticServer Start()
         {
             base.Start((request, response) =>
             {
-                var resourceName = request.Url.LocalPath.TrimStart('/');
+                var localPath = request.Url.LocalPath.TrimStart('/');
 
-                if (resourceName.ToLower() == "favicon.ico")
+                if (localPath.ToLower() == "favicon.ico")
                 {
                     response.Abort();
                     return;
@@ -41,27 +57,39 @@ namespace SizSelCsZzz.Extras
 
                 string body;
 
-
-                if (_staticContent.ContainsKey(resourceName))
+                if (_staticContent.ContainsKey(localPath))
                 {
-                    body = _staticContent[resourceName];
+                    body = _staticContent[localPath];
+
+                    using (var stream = response.OutputStream)
+                    using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    {
+                        writer.Write(body);
+                        writer.Flush();
+                    }
+                }
+                else if (_pathHandler.ContainsKey(localPath))
+                {
+                    _pathHandler[localPath](new RequestResponseContext()
+                    {
+                        Request = request,
+                        Response = response,
+                        Server = this
+                    });
                 }
                 else
                 {
-                    body = ResourceLoader.LoadResourceRelativeToType(this.GetType(), resourceName);
+                    response.StatusCode = (int) HttpStatusCode.NotFound;
+                    response.StatusDescription = "StaticServer did not have resource for '" + localPath + "'.";
+
+                    return;
                 }
 
-                var extension = resourceName.Substring(resourceName.LastIndexOf(".") + 1);
+                var extension = localPath.Substring(localPath.LastIndexOf(".") + 1);
 
                 if (_contentTypes.ContainsKey(extension))
                     response.Headers.Add("Content-Type", _contentTypes[extension]);
-
-                using (var stream = response.OutputStream)
-                using (var writer = new StreamWriter(stream, Encoding.UTF8))
-                {
-                    writer.Write(body);
-                    writer.Flush();
-                }
+                
             });
 
             return this;
