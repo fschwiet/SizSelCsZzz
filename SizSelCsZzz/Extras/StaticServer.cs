@@ -33,7 +33,6 @@ namespace SizSelCsZzz.Extras
                     writer.Write(content);
                     writer.Flush();
                 }
-
             });
         }
 
