@@ -24,23 +24,29 @@ namespace SizSelCsZzz.Extras
             //  Going to try to find a port thats available.  Trying in the range 8080-8090.
 
             var host = "localhost";
-            var port = 8080;
-
-            while(IsThatPortOpen.HasExistingTCPListener(port))
-            {
-                port++;
-
-                if (port > 8090)
-                {
-                    throw new Exception("Couldn't find available port.. (checked 8080-8090).");
-                }
-            }
+            int port = GetAvailablePort(8080, 8090);
 
             BaseUrl = "http://" + host + ":" + port + "/";
 
             _listener = new HttpListener();
             _listener.Start();
             _listener.Prefixes.Add(BaseUrl);
+        }
+
+        static public int GetAvailablePort(int minValue, int maxValue)
+        {
+            var port = minValue;
+
+            while(IsThatPortOpen.HasExistingTCPListener(port))
+            {
+                port++;
+
+                if (port > maxValue)
+                {
+                    throw new Exception(string.Format("Couldn't find available port.. (checked {0}-{1}).", minValue, maxValue));
+                }
+            }
+            return port;
         }
 
         public void Start(Action<HttpListenerRequest, HttpListenerResponse> action)
