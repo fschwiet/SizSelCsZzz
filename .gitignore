@@ -11,3 +11,4 @@ ChromeDriver.log
 *.suo
 *.sln.cache
 *.InstallLog
+debug.log

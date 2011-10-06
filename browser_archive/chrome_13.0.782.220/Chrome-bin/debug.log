@@ -1,4 +1,0 @@
-[1005/220424:ERROR:client_util.cc(223)] Failed to load Chrome DLL from 0051FC64
-[1005/220424:ERROR:client_util.cc(264)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
-[1005/220444:ERROR:client_util.cc(223)] Failed to load Chrome DLL from 0028FD2C
-[1005/220444:ERROR:client_util.cc(264)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
