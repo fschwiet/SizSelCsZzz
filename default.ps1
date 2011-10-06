@@ -4,6 +4,8 @@ properties {
     $version = "0.0.17"
     $releaseNotes = "Built against Selenium Webdriver 2.7"
 
+    $browserArchiveDirectory="$baseDirectory\browser_archive"
+
     $shortDescription = "An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting."
 }
 
@@ -53,7 +55,18 @@ task Build -depends Cleanup,GenerateAssemblyInfo {
     exec { &"C:\Windows\Microsoft.NET\Framework\$v4_net_version\MSBuild.exe" SizSelCsZzz.sln /T:"Clean,Build" /property:OutDir="$buildDirectory\" }    
 }
 
-task RunTests -depends Build {
+task ConfigureTests {
+
+    function set-applicationSetting ([string]$name, [string]$value) {
+        set-xml -exactlyOnce "//configuration/applicationSettings/*/setting[@name='$name']/value" $value
+    }
+
+    update-xml "$buildDirectory\SizSelCsZzz.Test.dll.config" {
+        set-applicationSetting "BrowserArchivePath" $browserArchiveDirectory
+    }
+}
+
+task RunTests -depends Build,ConfigureTests {
     exec { & "$baseDirectory\packages\NUnit.2.5.10.11092\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" }
 }
 

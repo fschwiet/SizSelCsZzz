@@ -25,10 +25,19 @@ namespace SizSelCsZzz.Test.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool CommitTestsOnly {
             get {
                 return ((bool)(this["CommitTestsOnly"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("browser_archive")]
+        public string BrowserArchivePath {
+            get {
+                return ((string)(this["BrowserArchivePath"]));
             }
         }
     }

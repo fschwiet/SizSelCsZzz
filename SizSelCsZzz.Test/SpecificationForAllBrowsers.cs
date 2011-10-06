@@ -16,9 +16,11 @@ namespace SizSelCsZzz.Test
     {
         bool _isRunningInternetExplorer = false;
 
+        public abstract void SpecifyForBrowser(IWebDriver browser);
+
         public sealed override void Specify()
         {
-            var browserRoot = arrange(() => GetBrowsersPath());
+            var browserRoot = arrange(() => Properties.Settings.Default.BrowserArchivePath);
 
             var allFirefoxVersions = new [] {"7.0.1", "6.0.2", "5.0.1"};
             var firstFirefoxVersion = allFirefoxVersions.First();
@@ -62,7 +64,7 @@ namespace SizSelCsZzz.Test
 
                 var browser = arrange(() =>
                 {
-                    var exePath = Path.Combine(GetBrowsersPath(), "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
+                    var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
 
                     DesiredCapabilities capabilities = DesiredCapabilities.Chrome();
@@ -103,24 +105,10 @@ namespace SizSelCsZzz.Test
             return arrange(() => Path.Combine(browserRoot, "firefox" + firstFirefoxVersion + "\\firefox.exe"));
         }
 
-        string GetBrowsersPath()
-        {
-            var rootPath = GetPathOfTestBinary();
-            
-            while (!Directory.Exists(Path.Combine(rootPath.FullName, "browser_archive")))
-            {
-                rootPath = rootPath.Parent;
-            }
-
-            return Path.Combine(rootPath.FullName, "browser_archive");
-        }
-
         DirectoryInfo GetPathOfTestBinary()
         {
             return new FileInfo(new Uri(this.GetType().Assembly.CodeBase).LocalPath).Directory;
         }
-
-        public abstract void SpecifyForBrowser(IWebDriver browser);
 
         public void ignoreIfInternetExplorer(string reason)
         {
