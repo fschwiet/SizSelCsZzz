@@ -21,7 +21,11 @@ namespace SizSelCsZzz.Extras
             WithContentType("html", ContentType_Html);
             WithContentType("htm", ContentType_Html);
             WithContentType("js", ContentType_Javascript);
+
+            Exceptions = new List<Exception>();
         }
+
+        public IEnumerable<Exception> Exceptions { get; private set; }
 
         public StaticServer Add(string path, string content)
         {
@@ -68,12 +72,19 @@ namespace SizSelCsZzz.Extras
                 {
                     AddContentTypeIfAvailable(localPath, response);
 
-                    _pathHandler[localPath](new RequestResponseContext()
+                    try
                     {
-                        Request = request,
-                        Response = response,
-                        Server = this
-                    });
+                        _pathHandler[localPath](new RequestResponseContext()
+                        {
+                            Request = request,
+                            Response = response,
+                            Server = this
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        ((List<Exception>)Exceptions).Add(e);
+                    }
                 }
                 else
                 {
@@ -95,16 +106,16 @@ namespace SizSelCsZzz.Extras
                 response.Headers.Add("Content-Type", _contentTypes[extension]);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _pathHandler.GetEnumerator();
-        }
-
         public StaticServer WithContentType(string extension, string expectedBarContentType)
         {
             _contentTypes[extension] = expectedBarContentType;
 
             return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _pathHandler.GetEnumerator();
         }
     }
 }

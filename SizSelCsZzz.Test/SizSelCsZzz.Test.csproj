@@ -87,6 +87,7 @@
     <Compile Include="SpecificationForAllBrowsers.cs" />
     <Compile Include="StaticServer_can_be_used_to_fake_external_http_dependencies.cs" />
     <Compile Include="StaticServer_can_have_arbitrary_path_handlers.cs" />
+    <Compile Include="StaticServer_tracks_exceptions_from_request_handlers.cs" />
     <Compile Include="WaitForElement_waits_until_Selenium_finds_an_element.cs" />
   </ItemGroup>
   <ItemGroup>
