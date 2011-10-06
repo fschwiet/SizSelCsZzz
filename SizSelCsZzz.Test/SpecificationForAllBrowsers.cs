@@ -23,6 +23,8 @@ namespace SizSelCsZzz.Test
             var allFirefoxVersions = new [] {"7.0.1", "6.0.2", "5.0.1"};
             var firstFirefoxVersion = allFirefoxVersions.First();
 
+            var allChromeVersions = new[] { "14.0.835.202", "13.0.782.220", "12.0.742.112" };
+
             given("Firefox " + firstFirefoxVersion + " with Firebug", delegate
             {
                 withCategory("CommitTest");
@@ -54,9 +56,22 @@ namespace SizSelCsZzz.Test
                 SpecifyForBrowser(browser);
             });
 
-            given("Chrome", delegate
+            foreach(var version in allChromeVersions)
+            given("Chrome " + version, delegate
             {
-                var browser = arrange(() => new ChromeDriver());
+
+                var browser = arrange(() =>
+                {
+                    var exePath = Path.Combine(GetBrowsersPath(), "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
+                    expect(() => File.Exists(exePath));
+
+                    DesiredCapabilities capabilities = DesiredCapabilities.Chrome();
+                    capabilities.SetCapability("chrome.binary", exePath);
+
+                    return new ChromeDriver(GetPathOfTestBinary().FullName, capabilities);
+                });
+
+                leakDisposable(browser);
 
                 SpecifyForBrowser(browser);
             });
@@ -90,7 +105,7 @@ namespace SizSelCsZzz.Test
 
         string GetBrowsersPath()
         {
-            var rootPath = new FileInfo(new Uri(this.GetType().Assembly.CodeBase).LocalPath).Directory;
+            var rootPath = GetPathOfTestBinary();
             
             while (!Directory.Exists(Path.Combine(rootPath.FullName, "browser_archive")))
             {
@@ -98,6 +113,11 @@ namespace SizSelCsZzz.Test
             }
 
             return Path.Combine(rootPath.FullName, "browser_archive");
+        }
+
+        DirectoryInfo GetPathOfTestBinary()
+        {
+            return new FileInfo(new Uri(this.GetType().Assembly.CodeBase).LocalPath).Directory;
         }
 
         public abstract void SpecifyForBrowser(IWebDriver browser);

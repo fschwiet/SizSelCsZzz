@@ -1,0 +1,4 @@
+[1005/220542:ERROR:client_util.cc(259)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
+[1005/220543:ERROR:client_util.cc(259)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
+[1005/220606:ERROR:client_util.cc(259)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
+[1005/220621:ERROR:client_util.cc(259)] Could not find exported function RelaunchChromeBrowserWithNewCommandLineIfNeeded
