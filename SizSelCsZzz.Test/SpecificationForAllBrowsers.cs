@@ -32,12 +32,12 @@ namespace SizSelCsZzz.Test
                 withCategory("CommitTest");
 
                 var exePath = GetFirefoxExe(browserRoot, firstFirefoxVersion);
-                var xpiPath = GetFirebugXpi(browserRoot, firstFirefoxVersion);
+//                var xpiPath = GetFirebugXpi(browserRoot, firstFirefoxVersion);
 
                 expect(() => File.Exists(exePath));
 
                 var firefoxProfile = new FirefoxProfile();
-                arrange(() => firefoxProfile.AddExtension(xpiPath));
+//                arrange(() => firefoxProfile.AddExtension(xpiPath));
                 var browser = arrange(() => new FirefoxDriver(new FirefoxBinary(exePath), firefoxProfile));
 
                 SpecifyForBrowser(browser);
@@ -46,7 +46,7 @@ namespace SizSelCsZzz.Test
             if (Properties.Settings.Default.CommitTestsOnly)
                 return;
 
-            foreach(string version in allFirefoxVersions)
+            foreach(string version in allFirefoxVersions.Skip(1))
             given("Firefox " + version, delegate
             {
                 var exePath = GetFirefoxExe(browserRoot, firstFirefoxVersion);
