@@ -33,7 +33,7 @@
             <script>psake.ps1</script>
             <scriptsDirectory>c:\src\SizSelCsZzz</scriptsDirectory>
             <executable>powershell.exe</executable>
-            <buildArgs>.\default.ps1 -properties @{ buildDirectory = 'c:\build\SizSelCsZzz.msbuild\'; browserArchiveDirectory='c:\build\SizSelCsZzz.git\browser_archive' }</buildArgs>
+            <buildArgs>.\default.ps1 RunTests -properties @{ buildDirectory = 'c:\build\SizSelCsZzz.msbuild\'; browserArchiveDirectory='c:\build\SizSelCsZzz.git\browser_archive' }</buildArgs>
             <successExitCodes>0</successExitCodes>  <!-- via powershell, $LastExitCode -->
             <description>Commit check</description>
             <buildTimeoutSeconds>3600</buildTimeoutSeconds>
