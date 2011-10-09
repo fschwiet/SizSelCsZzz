@@ -73,8 +73,6 @@ namespace SizSelCsZzz.Test
                     return new ChromeDriver(GetPathOfTestBinary().FullName, capabilities);
                 });
 
-                leakDisposable(browser);
-
                 SpecifyForBrowser(browser);
             });
 
