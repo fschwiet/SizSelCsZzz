@@ -1,8 +1,8 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.0.20"
-    $releaseNotes = "Built against Selenium Webdriver 2.8"
+    $version = "0.0.21"
+	$seleniumVersion = "2.8"
 
     $browserArchiveDirectory="$baseDirectory\browser_archive"
 
@@ -100,10 +100,10 @@ task BuildNuget -depends RunTests {
 
             set-xml -exactlyOnce "//dependencies" ""
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.0.2`" />"
-            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"2.6`" />"
-            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"2.6`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"$seleniumVersion`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"$seleniumVersion`" />"
 
-            append-xml "." "<releaseNotes>$releaseNotes</releaseNotes>";
+            append-xml "." "<releaseNotes>Built against Selenium Webdriver $seleniumVersion</releaseNotes>";
             append-xml "." "<summary>$shortDescription  This library requires .NET 4.</summary>"
         }
     }
