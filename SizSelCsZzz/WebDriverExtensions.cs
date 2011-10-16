@@ -61,5 +61,11 @@ namespace SizSelCsZzz
         {
             return browser.FindElements(BySizzle.CssSelector(cssSelector)).Count();
         }
+
+        public static void ClearThenSendKeys(this IWebElement element, string text)
+        {
+            element.Clear();
+            element.SendKeys(text);
+        }
     }
 }
