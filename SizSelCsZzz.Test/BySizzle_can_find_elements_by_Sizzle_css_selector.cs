@@ -27,6 +27,11 @@ namespace SizSelCsZzz.Test
                             <li>""quotes""</li>
                             <li class='last_li'></li>
                         </ul>
+
+                        <input value='Hello world'/>
+                        <input value='Hello, world.'/>
+                        <input id='fee-fi_foe-fum'></input>
+                        <span>phrase with spaces, and commas.</span>
                     </body>
                     </html>"}
             }.Start());
@@ -50,6 +55,14 @@ namespace SizSelCsZzz.Test
                 it("can handle special characters", delegate
                 {
                     expect(() => browser.FindElement(BySizzle.CssSelector("li:contains('\"quotes\"')")) != null);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("span:contains('phrase with spaces')")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("span:contains('phrase with spaces, and commas.')")).Count() == 1);
+                    expect(() => browser.FindElements(By.CssSelector("input#fee-fi_foe-fum")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("input#fee-fi_foe-fum")).Count() == 1);
+                    expect(() => browser.FindElements(By.CssSelector("input[value='Hello world']")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("input[value='Hello world']")).Count() == 1);
+                    //expect(() => browser.FindElements(By.CssSelector("input[value='Hello, world.']")).Count() == 1);
+                    expect(() => browser.FindElements(BySizzle.CssSelector("input[value='Hello, world.']")).Count() == 1);
                 });
 
                 it("reports a useful error if the element is not found", delegate
