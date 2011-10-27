@@ -25,6 +25,15 @@ namespace SizSelCsZzz.Extras
             Exceptions = new List<Exception>();
         }
 
+        public StaticServer(string host, int port) : base(host, port)
+        {
+            WithContentType("html", ContentType_Html);
+            WithContentType("htm", ContentType_Html);
+            WithContentType("js", ContentType_Javascript);
+
+            Exceptions = new List<Exception>();
+        }
+
         public IEnumerable<Exception> Exceptions { get; private set; }
 
         public StaticServer Add(string path, string content)
