@@ -22,7 +22,7 @@ namespace SizSelCsZzz.Test
         {
             var browserRoot = arrange(() => Properties.Settings.Default.BrowserArchivePath);
 
-            var allFirefoxVersions = new [] {"7.0.1", "6.0.2", "5.0.1"};
+            var allFirefoxVersions = new [] {"8.0", "7.0.1", "6.0.2", "5.0.1"};
             var firstFirefoxVersion = allFirefoxVersions.First();
 
             var allChromeVersions = new[] { "14.0.835.202", "13.0.782.220", "12.0.742.112" };
