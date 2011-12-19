@@ -5,16 +5,18 @@ using OpenQA.Selenium;
 
 namespace SizSelCsZzz.Test
 {
-    public class ExistingWindow
+    public class WhichWindowContext
     {
         private readonly IWebDriver _browser;
         private readonly List<string> _existingWindows;
+        private string _originalWindow;
 
-        public ExistingWindow(IWebDriver browser)
+        public WhichWindowContext(IWebDriver browser)
         {
             _browser = browser;
 
             _existingWindows = new List<string>(browser.WindowHandles);
+            _originalWindow = browser.CurrentWindowHandle;
         }
 
         public string GetNewWindowName()
@@ -31,6 +33,11 @@ namespace SizSelCsZzz.Test
                 return newWindows.Single();
             else
                 throw new Exception("multiple new windows found");
+        }
+
+        public string GetOriginalWindowName()
+        {
+            return _originalWindow;
         }
     }
 }

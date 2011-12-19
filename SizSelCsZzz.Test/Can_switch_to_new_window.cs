@@ -15,7 +15,7 @@ namespace SizSelCsZzz.Test
             {
                 var server = beforeAll(() => new StaticServer()
                 {
-                    {"first.html", "<html><a href='/second.html' target='_blank'>hi</a></html>"},
+                    {"first.html", "<html>original window here<a href='/second.html' target='_blank'>hi</a></html>"},
                     {"second.html", "<html>new window here</html>"}
                 }.Start());
 
@@ -23,17 +23,24 @@ namespace SizSelCsZzz.Test
 
                 arrange(() => browser.Navigate().GoToUrl(server.UrlFor("first.html")));
 
-                var existingWindows = arrange(() => new ExistingWindow(browser));
+                var existingWindows = arrange(() => new WhichWindowContext(browser));
 
                 when("the new window link is clicked", delegate()
                 {
                     arrange(() => browser.FindElement(By.TagName("a")).Click());
 
-                    then("a new window is opened", delegate()
+                    then("the new window can be switch to", delegate()
                     {
                         browser.SwitchTo().Window(existingWindows.GetNewWindowName());
 
                         expect(() => browser.ContainsText("new window here"));
+                    });
+
+                    then("the original window can be switched back to", delegate()
+                    {
+                        browser.SwitchTo().Window(existingWindows.GetOriginalWindowName());
+
+                        expect(() => browser.ContainsText("original window here"));
                     });
                 });
             });
