@@ -75,6 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BySizzle_can_find_elements_by_Sizzle_css_selector.cs" />
+    <Compile Include="Can_switch_to_new_window.cs" />
+    <Compile Include="ExistingWindow.cs" />
     <Compile Include="JQueryAjaxWaiter_waits_for_ajax_requests.cs" />
     <Compile Include="jquerySource\JQueryUtil.cs" />
     <Compile Include="miscellaneous_webdriver_extension_methods.cs" />
