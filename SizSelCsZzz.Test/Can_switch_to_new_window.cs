@@ -11,6 +11,8 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
+            ignoreIfInternetExplorer("For some reason Internet Explorer won't open a new window from this test.");
+
             given("a webpage that opens another window", delegate()
             {
                 var server = beforeAll(() => new StaticServer()
@@ -29,11 +31,15 @@ namespace SizSelCsZzz.Test
                 {
                     arrange(() => browser.FindElement(By.TagName("a")).Click());
 
-                    then("the new window can be switch to", delegate()
+                    arrange(delegate()
                     {
                         browser.SwitchTo().Window(existingWindows.GetNewWindowName());
 
                         expect(() => browser.ContainsText("new window here"));
+                    });
+
+                    then("the new window can be switch to", delegate()
+                    {
                     });
 
                     then("the original window can be switched back to", delegate()
