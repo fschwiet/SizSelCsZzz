@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
 
-namespace SizSelCsZzz.Test
+namespace SizSelCsZzz
 {
     public class WhichWindowContext
     {

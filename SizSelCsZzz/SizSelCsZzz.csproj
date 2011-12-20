@@ -67,6 +67,7 @@
     <Compile Include="Extras\FakeServer.cs" />
     <Compile Include="Extras\StaticServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WhichWindowContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sizzleSource\LICENSE" />
