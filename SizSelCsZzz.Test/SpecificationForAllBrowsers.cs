@@ -87,9 +87,12 @@ namespace SizSelCsZzz.Test
                 var capabilities = DesiredCapabilities.InternetExplorer();
                 capabilities.SetCapability("ignoreProtectedModeSettings", true);
 
-                var browser = arrange(() => new InternetExplorerDriver(capabilities));
+                var browser = arrange(() => new InternetExplorerDriver(GetPathOfTestBinary().FullName, new InternetExplorerOptions()
+                {
+                    IntroduceInstabilityByIgnoringProtectedModeSettings = true
+                }));
 
-                cleanup(() => browser.Close());
+                cleanup(() => browser.Quit());
 
                 SpecifyForBrowser(browser);
             });
