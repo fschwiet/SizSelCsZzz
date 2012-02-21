@@ -61,12 +61,11 @@ namespace SizSelCsZzz.Test
             foreach(var version in allChromeVersions)
             given("Chrome " + version, delegate
             {
-
                 var browser = arrange(() =>
                 {
                     var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
-
+                    
                     return new ChromeDriver(GetPathOfTestBinary().FullName, new ChromeOptions()
                     {
                         BinaryLocation = exePath
@@ -82,17 +81,18 @@ namespace SizSelCsZzz.Test
             {
                 //this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
 
+                var driverService =
+                    beforeAll(() => InternetExplorerDriverService.CreateDefaultService(GetPathOfTestBinary().FullName));
+                beforeAll(() => driverService.Start());
+
                 _isRunningInternetExplorer = true;
 
-                var capabilities = DesiredCapabilities.InternetExplorer();
-                capabilities.SetCapability("ignoreProtectedModeSettings", true);
-
-                var browser = arrange(() => new InternetExplorerDriver(GetPathOfTestBinary().FullName, new InternetExplorerOptions()
+                var browser = arrange(() => new InternetExplorerDriver(driverService.ServiceUrl.Port, new InternetExplorerOptions()
                 {
                     IntroduceInstabilityByIgnoringProtectedModeSettings = true
                 }));
 
-                cleanup(() => browser.Quit());
+                cleanup(() => browser.Close());
 
                 SpecifyForBrowser(browser);
             });
