@@ -66,7 +66,7 @@ namespace SizSelCsZzz.Test
                     var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
                     
-                    return new ChromeDriver(GetPathOfTestBinary().FullName, new ChromeOptions()
+                    return new ChromeDriver(GetTestBinDeploymentDirectory(), new ChromeOptions()
                     {
                         BinaryLocation = exePath
                     });
@@ -79,15 +79,9 @@ namespace SizSelCsZzz.Test
 
             given("Internet Explorer", delegate
             {
-                //this.ignoreBecause("InternetExplorerDriver requires particular security options.  Tools->Options->Security: 'Protected Mode' checkbox must match for all zones.");
-
-                var driverService =
-                    beforeAll(() => InternetExplorerDriverService.CreateDefaultService(GetPathOfTestBinary().FullName));
-                beforeAll(() => driverService.Start());
-
                 _isRunningInternetExplorer = true;
 
-                var browser = arrange(() => new InternetExplorerDriver(driverService.ServiceUrl.Port, new InternetExplorerOptions()
+                var browser = arrange(() => new InternetExplorerDriver(new InternetExplorerOptions()
                 {
                     IntroduceInstabilityByIgnoringProtectedModeSettings = true
                 }));
@@ -108,9 +102,9 @@ namespace SizSelCsZzz.Test
             return arrange(() => Path.Combine(browserRoot, "firefox" + firstFirefoxVersion + "\\firefox.exe"));
         }
 
-        DirectoryInfo GetPathOfTestBinary()
+        public static string GetTestBinDeploymentDirectory()
         {
-            return new FileInfo(new Uri(this.GetType().Assembly.CodeBase).LocalPath).Directory;
+            return new FileInfo(new Uri(typeof(SpecificationForAllBrowsers).Assembly.CodeBase).LocalPath).Directory.FullName;
         }
 
         public void ignoreIfInternetExplorer(string reason)
