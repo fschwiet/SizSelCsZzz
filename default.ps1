@@ -2,7 +2,7 @@ properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
     $version = "0.1.3"
-	$seleniumVersion = "2.15"
+	$seleniumVersion = "2.19"
 
     $browserArchiveDirectory="$baseDirectory\browser_archive"
 
@@ -99,7 +99,7 @@ task BuildNuget {
             set-xml -exactlyOnce "//tags" "Selenium WebDriver Browser Automation"
 
             set-xml -exactlyOnce "//dependencies" ""
-            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"[4.0.4]`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"[4.0.6]`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"$seleniumVersion`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"$seleniumVersion`" />"
 
