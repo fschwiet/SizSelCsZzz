@@ -67,10 +67,10 @@ namespace SizSelCsZzz.Test
                     var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
 
-                    DesiredCapabilities capabilities = DesiredCapabilities.Chrome();
-                    capabilities.SetCapability("chrome.binary", exePath);
-
-                    return new ChromeDriver(GetPathOfTestBinary().FullName, capabilities);
+                    return new ChromeDriver(GetPathOfTestBinary().FullName, new ChromeOptions()
+                    {
+                        BinaryLocation = exePath
+                    });
                 });
 
                 SpecifyForBrowser(browser);
