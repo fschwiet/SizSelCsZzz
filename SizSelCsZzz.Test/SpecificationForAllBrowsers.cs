@@ -73,6 +73,8 @@ namespace SizSelCsZzz.Test
                     });
                 });
 
+                cleanup(() => browser.Quit());
+
                 SpecifyForBrowser(browser);
             });
 
