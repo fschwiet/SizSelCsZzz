@@ -14,6 +14,37 @@ import-module .\tools\PSUpdateXML.psm1
 
 task default -depends TraceSourceControlCommit,Build,RunTests,BuildNuget
 
+task vmtest {
+
+	# http://www.virtualbox.org/manual/ch08.html
+
+	#param($name,  $baseImage,
+	#$ostype = "Windows7_64")
+	
+	$name = "scripted";
+	$ostype = "Windows7_64";
+
+	if (-not (get-command VBoxManag[e])) {
+    	Set-Alias VBoxManage $env:ProgramFiles\Oracle\VirtualBox\VBoxManage.exe
+	}
+
+	$existing = VBoxManage list vms
+	
+	if ($existing -match ("^`"" + [Regex]::Escape($name) + "`"")) {
+		"Deleting vm..."
+		VBoxManage unregistervm $name --delete
+	}
+
+	"Creating vm..."
+	$createOutput = VBoxManage createvm --name $name --ostype Windows7_64 --register
+	
+	$createOutput
+	
+	$uuid = switch -regex ($createOutput) { "UUID: (.*)" { $matches[1] } }
+
+	Assert ($uuid -is [string]) "Unable to detect UUID of created VM"
+}
+
 task TraceSourceControlCommit {
     git log -1 --oneline | % { "Current commit: " + $_ }
 }
