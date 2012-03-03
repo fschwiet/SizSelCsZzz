@@ -16,7 +16,7 @@ task default -depends TraceSourceControlCommit,Build,RunTests,BuildNuget
 
 task vmtest {
 
-	# http://www.virtualbox.org/manual/ch08.html
+	# http://www.bloof.de/virtualBox_headless
 
 	#param($name,  $baseImage,
 	#$ostype = "Windows7_64")
@@ -36,15 +36,20 @@ task vmtest {
 	}
 
 	"Creating vm..."
-	$createOutput = VBoxManage createvm --name $name --ostype Windows7_64 --register
+	exec { $createOutput = VBoxManage createvm --name $name --ostype Windows7_64 --register }
 	
-	$createOutput
-	
-	$uuid = switch -regex ($createOutput) { "UUID: (.*)" { $matches[1] } }
+	exec { $uuid = switch -regex ($createOutput) { "UUID: (.*)" { $matches[1] } } }
 
 	Assert ($uuid -is [string]) "Unable to detect UUID of created VM"
 	
-	vboxmanage clonehd 'D:\IE VHDs\Win7_IE8.vhd' $uuid --format VHD
+	exec { VBoxManage modifyvm $name --memory 256 --acpi on --boot1 dvd --nic1 nat }
+	
+	$imagePath = "$baseDirectory\build\TempDrive.vhd"
+	exec { vboxmanage clonehd 'D:\IE VHDs\Win7_IE8.vhd' $imagePath --format VHD }
+
+	exec { VBoxManage storagectl $name --name "IDE Controller" --add ide }
+	exec { VBoxManage storageattach $name --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium $imagePath }
+	#VBoxManage storageattach machineA --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium /path/to/debian-503-i386-businesscard.is
 }
 
 task TraceSourceControlCommit {
