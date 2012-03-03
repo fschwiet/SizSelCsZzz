@@ -43,6 +43,8 @@ task vmtest {
 	$uuid = switch -regex ($createOutput) { "UUID: (.*)" { $matches[1] } }
 
 	Assert ($uuid -is [string]) "Unable to detect UUID of created VM"
+	
+	vboxmanage clonehd 'D:\IE VHDs\Win7_IE8.vhd' $uuid --format VHD
 }
 
 task TraceSourceControlCommit {
