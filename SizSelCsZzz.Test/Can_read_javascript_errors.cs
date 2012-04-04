@@ -17,11 +17,11 @@ namespace SizSelCsZzz.Test
         {
             public FakeServerWithJavascriptErrors()
             {
-                Get["/hello"] = c => @"<html> 
-                <title>OK</title> 
-                <body><a href='javascript:return false;' onclick='window.callNonexistingFunction()'>click for error</a></body>
-
-</html>";
+                Get["/hello"] = c => 
+                    @"<html> 
+                        <title>OK</title> 
+                        <body><a href='javascript:return false;' onclick='window.callNonexistingFunction()'>click for error</a></body>
+                    </html>";
             }
         }
 
