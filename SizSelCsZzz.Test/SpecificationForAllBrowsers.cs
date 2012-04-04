@@ -66,7 +66,7 @@ namespace SizSelCsZzz.Test
             {
                 var browser = arrange(() =>
                 {
-                    var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\chrome.exe");
+                    var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
                     
                     return new ChromeDriver(GetTestBinDeploymentDirectory(), new ChromeOptions()
