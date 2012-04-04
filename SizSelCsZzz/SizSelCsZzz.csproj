@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extras\IsThatPortOpen.cs" />
+    <Compile Include="Extras\TCPUtil.cs" />
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
     <Compile Include="jquerySource\JQuerySource.cs" />
