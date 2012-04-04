@@ -26,12 +26,7 @@ namespace SizSelCsZzz
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
-            var scriptExecutor = context as IJavaScriptExecutor;
-
-            if (scriptExecutor == null && context is IWrapsDriver)
-            {
-                scriptExecutor = (context as IWrapsDriver).WrappedDriver as IJavaScriptExecutor;
-            }
+            var scriptExecutor = DriverWrapperUnwrapper.GetDriverImplementationOf<IJavaScriptExecutor>(context);
 
             EnsureSizzleIsLoaded(scriptExecutor);
 

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using NJasmine;
 using NUnit.Framework;
 using Nancy;
@@ -15,11 +17,11 @@ namespace SizSelCsZzz.Test
         {
             public FakeServerWithJavascriptErrors()
             {
-                Get["/hello"] = c => "<html><title>OK</title></html>";
-                Get["/fail"] = c =>
-                    @"<html> 
-                <title>FAIL</title> 
-                <script> throw 'Hello, World';  </script></html>";
+                Get["/hello"] = c => @"<html> 
+                <title>OK</title> 
+                <body><a href='javascript:return false;' onclick='window.callNonexistingFunction()'>click for error</a></body>
+
+</html>";
             }
         }
 
@@ -27,11 +29,12 @@ namespace SizSelCsZzz.Test
         {
             var server = beforeAll(() => new NancyModuleRunner(new FakeServerWithJavascriptErrors()));
 
-            var exceptionReader = arrange(() => new WebDriverExceptionMonitor().Monitor(browser));
+            var exceptionReader = arrange(() => new WebDriverExceptionMonitor());
 
-            when("the user visits a page without errors", delegate()
+            when("the user visits a page", delegate()
             {
                 arrange(() => browser.Navigate().GoToUrl(server.UrlFor("hello")));
+                arrange(() => exceptionReader.StartMonitoring(browser));
 
                 expect(() => browser.Title == "OK");
 
@@ -39,19 +42,27 @@ namespace SizSelCsZzz.Test
                 {
                     expect(() => !exceptionReader.GetJavascriptExceptions().Any());
                 });
+
+                when("the user clicks something that triggers an error", delegate()
+                {
+                    arrange(() => browser.FindElement(By.LinkText("click for error")).Click());
+
+                    then("the error is recorded", delegate()
+                    {
+                        expect(() => exceptionReader.GetJavascriptExceptions().Any(m => m.Contains("callNonexistingFunction")));
+                    });
+                });
             });
 
-            //when("the user visits a page with errors", delegate()
-            //{
-            //    arrange(() => browser.Navigate().GoToUrl(server.UrlFor("fail")));
+            when("the user requests errors without starting monitoring", delegate
+            {
+                then("a helpful exception message tells them to start monitoring", delegate
+                {
+                    var exception = Assert.Throws<InvalidOperationException>(() => exceptionReader.GetJavascriptExceptions());
 
-            //    expect(() => browser.Title == "FAIL");
-
-            //    then("the error is recorded", delegate()
-            //    {
-            //        expect(() => exceptionReader.GetJavascriptExceptions().Single().Contains("Hello, world"));
-            //    });
-            //});
+                    expect(() => exception.Message.Contains("StartMonitoring"));
+                });
+            });
         }
     }
 }
