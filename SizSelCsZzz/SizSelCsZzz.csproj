@@ -63,6 +63,7 @@
     <Compile Include="jquerySource\JQuerySource.cs" />
     <Compile Include="Other\BigScriptRunner.cs" />
     <Compile Include="Other\JQueryNotInstalledException.cs" />
+    <Compile Include="WebDriverExceptionMonitor.cs" />
     <Compile Include="WebDriverExtensions.cs" />
     <Compile Include="BySizzle.cs" />
     <Compile Include="Extras\FakeServer.cs" />

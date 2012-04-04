@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using NJasmine;
@@ -14,20 +12,19 @@ namespace SizSelCsZzz.Test
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new StaticServer());
-            beforeAll(() => server.Add("/hello/", "<html><title>OK</title></html>"));
+            var server = beforeAll(() => new StaticServer().Start());
+
+            beforeAll(() => server.Add("hello", "<html><title>OK</title></html>"));
             
-            beforeAll(() => server.Add("/fail/", @"<html> 
+            beforeAll(() => server.Add("fail", @"<html> 
                 <title>FAIL</title> 
                 <script> throw 'Hello, World';  </script></html>"));
-
-            beforeAll(() => server.Start());
 
             var exceptionReader = arrange(() => new WebDriverExceptionMonitor().Monitor(browser));
 
             when("the user visits a page without errors", delegate()
             {
-                arrange(() => browser.Navigate().GoToUrl(server.UrlFor("/hello/")));
+                arrange(() => browser.Navigate().GoToUrl(server.UrlFor("hello")));
 
                 expect(() => browser.Title == "OK");
 
@@ -39,7 +36,7 @@ namespace SizSelCsZzz.Test
 
             when("the user visits a page with errors", delegate()
             {
-                arrange(() => browser.Navigate().GoToUrl(server.UrlFor("/fail/")));
+                arrange(() => browser.Navigate().GoToUrl(server.UrlFor("fail")));
 
                 expect(() => browser.Title == "FAIL");
 
@@ -48,24 +45,6 @@ namespace SizSelCsZzz.Test
                     expect(() => exceptionReader.GetJavascriptExceptions().Single().Contains("Hello, world"));
                 });
             });
-        }
-    }
-
-    public class WebDriverExceptionMonitor
-    {
-        public WebDriverExceptionMonitor()
-        {
-            throw new NotImplementedException();
-        }
-
-        public WebDriverExceptionMonitor Monitor(IWebDriver browser)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<string> GetJavascriptExceptions()
-        {
-            throw new NotImplementedException();
         }
     }
 }
