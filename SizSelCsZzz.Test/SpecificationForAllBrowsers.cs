@@ -15,6 +15,7 @@ namespace SizSelCsZzz.Test
     public abstract class SpecificationForAllBrowsers : GivenWhenThenFixture
     {
         bool _isRunningInternetExplorer = false;
+        bool _isRunningFirefox = true;
 
         public abstract void SpecifyForBrowser(IWebDriver browser);
 
@@ -22,14 +23,16 @@ namespace SizSelCsZzz.Test
         {
             var browserRoot = arrange(() => Properties.Settings.Default.BrowserArchivePath);
 
-            var allFirefoxVersions = new [] {"8.0", "7.0.1", "6.0.2", "5.0.1"};
+            var allFirefoxVersions = new [] {"11.0", "8.0", "7.0.1", "6.0.2", "5.0.1"};
             var firstFirefoxVersion = allFirefoxVersions.First();
 
-            var allChromeVersions = new[] { "14.0.835.202", "13.0.782.220", "12.0.742.112" };
+            var allChromeVersions = new[] { "18.0.1025.142", "14.0.835.202", "13.0.782.220", "12.0.742.112" };
 
             given("Firefox " + firstFirefoxVersion + " with Firebug", delegate
             {
                 withCategory("CommitTest");
+
+                _isRunningFirefox = true;
 
                 var exePath = GetFirefoxExe(browserRoot, firstFirefoxVersion);
 //                var xpiPath = GetFirebugXpi(browserRoot, firstFirefoxVersion);
@@ -63,7 +66,7 @@ namespace SizSelCsZzz.Test
             {
                 var browser = arrange(() =>
                 {
-                    var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
+                    var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\chrome.exe");
                     expect(() => File.Exists(exePath));
                     
                     return new ChromeDriver(GetTestBinDeploymentDirectory(), new ChromeOptions()
@@ -110,6 +113,14 @@ namespace SizSelCsZzz.Test
         public void ignoreIfInternetExplorer(string reason)
         {
             if (_isRunningInternetExplorer)
+            {
+                ignoreBecause(reason);
+            }
+        }
+
+        public void ignoreIfFirefox(string reason)
+        {
+            if (_isRunningFirefox)
             {
                 ignoreBecause(reason);
             }
