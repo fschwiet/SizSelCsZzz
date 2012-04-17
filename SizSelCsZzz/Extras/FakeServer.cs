@@ -24,7 +24,7 @@ namespace SizSelCsZzz.Extras
             //  Going to try to find a port thats available.  Trying in the range 8080-8090.
 
             var host = "localhost";
-            int port = TCPUtil.GetAvailableTCPPort(8080, 8090);
+            int port = TCPUtil.GetAvailableTCPPort(8081, 8090);
 
             BaseUrl = "http://" + host + ":" + port + "/";
 
