@@ -17,19 +17,18 @@ namespace SizSelCsZzz
 
             var monitorScript = @"(function() {
 
-    window.hi = 2;
     var recordedErrors = [];
+
     var oldOnErrorHandler = window.onerror;
-    
+
     function errorHandler(errorMessage, url, line) {
         recordedErrors.push(errorMessage + ': ' + url + ' (' + line + ')');
 
-        //if (oldOnErrorHandler != null) {
-        //    return oldOnErrorHandler.apply(this, arguments);
-        //}
+        if (oldOnErrorHandler != null) {
+            return oldOnErrorHandler.apply(this, arguments);
+        }
     }
-    
-    window.onerror = errorHandler
+    window.onerror = errorHandler;
 
     window." + reporterFunction + @" = function() {
         return recordedErrors;

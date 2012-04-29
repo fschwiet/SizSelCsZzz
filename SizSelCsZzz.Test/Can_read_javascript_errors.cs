@@ -20,7 +20,7 @@ namespace SizSelCsZzz.Test
                 Get["/hello"] = c => 
                     @"<html> 
                         <title>OK</title> 
-                        <body><a href='javascript:return false;' onclick='window.callNonexistingFunction()'>click for error</a></body>
+                        <body><a href='javascript:void(0);' onclick='window.callNonexistingFunction()'>click for error</a></body>
                     </html>";
             }
         }
@@ -51,8 +51,6 @@ namespace SizSelCsZzz.Test
                     {
                         expect(() => exceptionReader.GetJavascriptExceptions().Count() > 0);
                     });
-
-                    this.ignoreIfFirefox("Firefox does not seem to record the exception detail, but rather just 'Script Error'.  Likely due to same origin policy - http://stackoverflow.com/questions/5913978/cryptic-script-error-reported-in-javascript-in-chrome-and-firefox");
 
                     then("the error message is recorded", delegate()
                     {
