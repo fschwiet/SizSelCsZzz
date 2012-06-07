@@ -89,7 +89,7 @@ namespace SizSelCsZzz.Test
                     IntroduceInstabilityByIgnoringProtectedModeSettings = true
                 }));
 
-                cleanup(() => browser.Close());
+                cleanup(() => browser.Quit());
 
                 SpecifyForBrowser(browser);
             });
