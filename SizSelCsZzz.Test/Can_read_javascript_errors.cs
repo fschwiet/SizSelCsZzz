@@ -27,7 +27,7 @@ namespace SizSelCsZzz.Test
 
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new NancyModuleRunner(new FakeServerWithJavascriptErrors()));
+            var server = beforeAll(() => new NancyModuleRunner(c => c.Module<FakeServerWithJavascriptErrors>()));
 
             var exceptionReader = arrange(() => new WebDriverExceptionMonitor());
 

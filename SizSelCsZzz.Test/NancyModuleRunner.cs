@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nancy;
 using Nancy.Hosting.Self;
 using Nancy.Testing;
 using SizSelCsZzz.Extras;
@@ -14,7 +13,7 @@ namespace SizSelCsZzz.Test
         public string BaseUrl;
         NancyHost _nancyHost;
 
-        public NancyModuleRunner(NancyModule module)
+        public NancyModuleRunner(Action<ConfigurableBootstrapper.ConfigurableBoostrapperConfigurator> configuration2)
         {
             //  Going to try to find a port thats available.  Trying in the range 8080-8090.
 
@@ -23,7 +22,7 @@ namespace SizSelCsZzz.Test
 
             BaseUrl = "http://" + host + ":" + port + "/";
 
-            var bootStrapper = new ConfigurableBootstrapper(c => c.Module(module, module.GetType().Name));
+            var bootStrapper = new ConfigurableBootstrapper(configuration2);
 
             _nancyHost = new NancyHost(bootStrapper, new Uri(BaseUrl));
             _nancyHost.Start();
