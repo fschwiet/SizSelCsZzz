@@ -15,13 +15,12 @@ namespace SizSelCsZzz.Test
     public abstract class SpecificationForAllBrowsers : GivenWhenThenFixture
     {
         bool _isRunningInternetExplorer = false;
-        bool _isRunningFirefox = true;
 
         public abstract void SpecifyForBrowser(IWebDriver browser);
 
         public sealed override void Specify()
         {
-            var browserRoot = arrange(() => Properties.Settings.Default.BrowserArchivePath);
+            var browserRoot = beforeAll(() => Properties.Settings.Default.BrowserArchivePath);
 
             var allFirefoxVersions = new [] {"13.0", "11.0", "8.0", "7.0.1", "6.0.2", "5.0.1"};
             var firstFirefoxVersion = allFirefoxVersions.First();
@@ -32,16 +31,7 @@ namespace SizSelCsZzz.Test
             {
                 withCategory("CommitTest");
 
-                _isRunningFirefox = true;
-
-                var exePath = GetFirefoxExe(browserRoot, firstFirefoxVersion);
-//                var xpiPath = GetFirebugXpi(browserRoot, firstFirefoxVersion);
-
-                expect(() => File.Exists(exePath));
-
-                var firefoxProfile = new FirefoxProfile();
-//                arrange(() => firefoxProfile.AddExtension(xpiPath));
-                var browser = arrange(() => new FirefoxDriver(new FirefoxBinary(exePath), firefoxProfile));
+                var browser = beforeAll(() => LoadFirefoxDriver(browserRoot, firstFirefoxVersion));
 
                 SpecifyForBrowser(browser);
             });
@@ -52,11 +42,7 @@ namespace SizSelCsZzz.Test
             foreach(string version in allFirefoxVersions.Skip(1))
             given("Firefox " + version, delegate
             {
-                var exePath = GetFirefoxExe(browserRoot, firstFirefoxVersion);
-
-                expect(() => File.Exists(exePath));
-
-                var browser = arrange(() => new FirefoxDriver(new FirefoxBinary(exePath), new FirefoxProfile()));
+                var browser = beforeAll(() => LoadFirefoxDriver(browserRoot, firstFirefoxVersion));
 
                 SpecifyForBrowser(browser);
             });
@@ -64,7 +50,7 @@ namespace SizSelCsZzz.Test
             foreach(var version in allChromeVersions)
             given("Chrome " + version, delegate
             {
-                var browser = arrange(() =>
+                var browser = beforeAll(() =>
                 {
                     var exePath = Path.Combine(Properties.Settings.Default.BrowserArchivePath, "chrome_" + version + "\\chrome-bin\\" + version + "\\chrome.exe");
                     expect(() => File.Exists(exePath));
@@ -75,7 +61,7 @@ namespace SizSelCsZzz.Test
                     });
                 });
 
-                cleanup(() => browser.Quit());
+                afterAll(() => browser.Quit());
 
                 SpecifyForBrowser(browser);
             });
@@ -84,25 +70,31 @@ namespace SizSelCsZzz.Test
             {
                 _isRunningInternetExplorer = true;
 
-                var browser = arrange(() => new InternetExplorerDriver(new InternetExplorerOptions()
+                var browser = beforeAll(() => new InternetExplorerDriver(new InternetExplorerOptions()
                 {
                     IntroduceInstabilityByIgnoringProtectedModeSettings = true
                 }));
 
-                cleanup(() => browser.Quit());
+                afterAll(() => browser.Quit());
 
                 SpecifyForBrowser(browser);
             });
         }
 
-        string GetFirebugXpi(string browserRoot, string firstFirefoxVersion)
+        FirefoxDriver LoadFirefoxDriver(string browserRoot, string firstFirefoxVersion)
         {
-            return arrange(() => Directory.GetFiles(Path.Combine(browserRoot, "firefox" + firstFirefoxVersion), "*.xpi").Single());
+            var exePath = Path.Combine(browserRoot, "firefox" + firstFirefoxVersion + "\\firefox.exe");
+
+            expect(() => File.Exists(exePath));
+
+            var firefoxProfile = new FirefoxProfile();
+            //arrange(() => firefoxProfile.AddExtension(xpiPath));
+            return new FirefoxDriver(new FirefoxBinary(exePath), firefoxProfile);
         }
 
-        string GetFirefoxExe(string browserRoot, string firstFirefoxVersion)
+        string GetFirebugXpi(string browserRoot, string firstFirefoxVersion)
         {
-            return arrange(() => Path.Combine(browserRoot, "firefox" + firstFirefoxVersion + "\\firefox.exe"));
+            return Directory.GetFiles(Path.Combine(browserRoot, "firefox" + firstFirefoxVersion), "*.xpi").Single();
         }
 
         public static string GetTestBinDeploymentDirectory()
@@ -113,14 +105,6 @@ namespace SizSelCsZzz.Test
         public void ignoreIfInternetExplorer(string reason)
         {
             if (_isRunningInternetExplorer)
-            {
-                ignoreBecause(reason);
-            }
-        }
-
-        public void ignoreIfFirefox(string reason)
-        {
-            if (_isRunningFirefox)
             {
                 ignoreBecause(reason);
             }
