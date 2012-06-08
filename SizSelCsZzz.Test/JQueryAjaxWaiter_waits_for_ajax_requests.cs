@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using NUnit.Framework;
+using Nancy;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
 using SizSelCsZzz.jquerySource;
@@ -14,6 +16,21 @@ namespace SizSelCsZzz.Test
 {
     public class JQueryAjaxWaiter_waits_for_ajax_requests : SpecificationForAllBrowsers
     {
+        public class AWaitingServer : NancyModule
+        {
+            readonly AutoResetEvent _ev;
+
+            public AWaitingServer(AutoResetEvent ev)
+            {
+                _ev = ev;
+
+                Get["*"] = c => {
+                    _ev.WaitOne();
+                    return "";
+                };
+            }
+        }
+
         public override void SpecifyForBrowser(IWebDriver browser)
         {
             var server = beforeAll(() => new StaticServer()
@@ -92,18 +109,9 @@ namespace SizSelCsZzz.Test
 
                 when("the browser starts a long-running ajax operation", delegate
                 {
-                    var waitHandle = beforeAll(() => new System.Threading.AutoResetEvent(false));
+                    var waitHandle = beforeAll(() => new AutoResetEvent(false));
 
-                    var slowServer = beforeAll(delegate
-                    {
-                        var result = new FakeServer();
-                        result.Start((request, response) =>
-                        {
-                            waitHandle.WaitOne();
-                            response.OutputStream.Close();
-                        });
-                        return result;
-                    });
+                    var slowServer = beforeAll(() =>  new NancyModuleRunner(new AWaitingServer(waitHandle)));
 
                     afterEach(() => waitHandle.Set());
 
