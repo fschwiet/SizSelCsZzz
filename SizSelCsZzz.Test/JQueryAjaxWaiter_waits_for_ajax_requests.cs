@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using NUnit.Framework;
+using Nancy;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
 using SizSelCsZzz.jquerySource;
@@ -14,15 +16,32 @@ namespace SizSelCsZzz.Test
 {
     public class JQueryAjaxWaiter_waits_for_ajax_requests : SpecificationForAllBrowsers
     {
+        public class SomeTestServer : NancyModule
+        {
+            public static string JQueryUrl;
+            public static AutoResetEvent WaitHandle;
+
+            public SomeTestServer()
+            {
+                Get["/homepage.html"] = c => "<html></html>";
+
+                Get["/jquery.js"] = c => JQuerySource.GetJQuerySource();
+
+                Get["/pageWithJQuery.html"] = c => JQueryUtil.HtmlLoadingJQuery(JQueryUrl);
+
+                Get["/wait"] = c =>
+                {
+                    WaitHandle.WaitOne();
+                    return "<html></html>";
+                };
+            }
+        }
+
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new StaticServer()
-                {
-                    {"homepage.html", "<html></html>"},
-                    {"jquery.js",JQuerySource.GetJQuerySource()},
-                }.Start());
+            var server = beforeAll(() => new NancyModuleRunner(c => c.Module<SomeTestServer>()));
 
-            beforeAll(() => server.Add("pageWithJQuery.html", JQueryUtil.HtmlLoadingJQuery(server.UrlFor("jquery.js"))));
+            SomeTestServer.JQueryUrl = beforeAll(() => server.UrlFor("jquery.js"));
 
             it("requires jQuery", delegate
             {
@@ -92,20 +111,11 @@ namespace SizSelCsZzz.Test
 
                 when("the browser starts a long-running ajax operation", delegate
                 {
-                    var waitHandle = beforeAll(() => new System.Threading.AutoResetEvent(false));
+                    SomeTestServer.WaitHandle = beforeEach(() => new System.Threading.AutoResetEvent(false));
 
-                    var slowServer = beforeAll(delegate
-                    {
-                        var result = new FakeServer();
-                        result.Start((request, response) =>
-                        {
-                            waitHandle.WaitOne();
-                            response.OutputStream.Close();
-                        });
-                        return result;
-                    });
+                    var slowServer = beforeAll(() => server);
 
-                    afterEach(() => waitHandle.Set());
+                    afterEach(() => SomeTestServer.WaitHandle.Set());
 
                     arrange(delegate
                     {
@@ -114,7 +124,7 @@ namespace SizSelCsZzz.Test
                         browser.MonitorJQueryAjax();
 
                         var executor = browser as IJavaScriptExecutor;
-                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(slowServer.UrlFor("")) + ");");
+                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(slowServer.UrlFor("wait")) + ");");
                     });
 
                     ignoreIfInternetExplorer("not sure why this test isn't working on IE- may be a test only bug");
@@ -126,7 +136,7 @@ namespace SizSelCsZzz.Test
 
                     when("that longrunning call completes", delegate
                     {
-                        arrange(() => waitHandle.Set());
+                        arrange(() => SomeTestServer.WaitHandle.Set());
 
                         then("IsAjaxPending returns false", delegate
                         {
