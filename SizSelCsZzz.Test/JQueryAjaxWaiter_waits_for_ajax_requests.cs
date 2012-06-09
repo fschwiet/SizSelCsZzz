@@ -18,7 +18,6 @@ namespace SizSelCsZzz.Test
     {
         public class SomeTestServer : NancyModule
         {
-            public static string JQueryUrl;
             public static AutoResetEvent WaitHandle;
 
             public SomeTestServer()
@@ -27,7 +26,7 @@ namespace SizSelCsZzz.Test
 
                 Get["/jquery.js"] = c => JQuerySource.GetJQuerySource();
 
-                Get["/pageWithJQuery.html"] = c => JQueryUtil.HtmlLoadingJQuery(JQueryUrl);
+                Get["/pageWithJQuery.html"] = c => JQueryUtil.HtmlLoadingJQuery("jquery.js");
 
                 Get["/wait"] = c =>
                 {
@@ -40,8 +39,6 @@ namespace SizSelCsZzz.Test
         public override void SpecifyForBrowser(IWebDriver browser)
         {
             var server = beforeAll(() => new NancyModuleRunner(c => c.Module<SomeTestServer>()));
-
-            SomeTestServer.JQueryUrl = beforeAll(() => server.UrlFor("jquery.js"));
 
             it("requires jQuery", delegate
             {
