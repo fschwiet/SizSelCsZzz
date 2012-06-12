@@ -110,8 +110,6 @@ namespace SizSelCsZzz.Test
                 {
                     SomeTestServer.WaitHandle = beforeEach(() => new System.Threading.AutoResetEvent(false));
 
-                    var slowServer = beforeAll(() => server);
-
                     afterEach(() => SomeTestServer.WaitHandle.Set());
 
                     arrange(delegate
@@ -121,7 +119,7 @@ namespace SizSelCsZzz.Test
                         browser.MonitorJQueryAjax();
 
                         var executor = browser as IJavaScriptExecutor;
-                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(slowServer.UrlFor("wait")) + ");");
+                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(server.UrlFor("wait")) + ");");
                     });
 
                     ignoreIfInternetExplorer("not sure why this test isn't working on IE- may be a test only bug");
