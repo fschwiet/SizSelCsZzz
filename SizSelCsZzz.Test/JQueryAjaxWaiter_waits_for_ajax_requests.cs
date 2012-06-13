@@ -18,9 +18,7 @@ namespace SizSelCsZzz.Test
     {
         public class SomeTestServer : NancyModule
         {
-            public static AutoResetEvent WaitHandle;
-
-            public SomeTestServer()
+            public SomeTestServer(ManualResetEvent waitHandle)
             {
                 Get["/homepage.html"] = c => "<html></html>";
 
@@ -30,15 +28,19 @@ namespace SizSelCsZzz.Test
 
                 Get["/wait"] = c =>
                 {
-                    WaitHandle.WaitOne();
-                    return "<html></html>";
+                    waitHandle.WaitOne();
+                    return "";
                 };
             }
         }
 
         public override void SpecifyForBrowser(IWebDriver browser)
         {
-            var server = beforeAll(() => new NancyModuleRunner(c => c.Module<SomeTestServer>()));
+            var waitHandle = beforeAll(() => new ManualResetEvent(false));
+
+            beforeEach(() => waitHandle.Reset());
+
+            var server = beforeAll(() => new NancyModuleRunner(c => c.Dependency(waitHandle).Module<SomeTestServer>()));
 
             it("requires jQuery", delegate
             {
@@ -108,12 +110,6 @@ namespace SizSelCsZzz.Test
 
                 when("the browser starts a long-running ajax operation", delegate
                 {
-                    SomeTestServer.WaitHandle = beforeEach(() => new System.Threading.AutoResetEvent(false));
-
-                    var slowServer = beforeAll(() => server);
-
-                    afterEach(() => SomeTestServer.WaitHandle.Set());
-
                     arrange(delegate
                     {
                         browser.Navigate().GoToUrl(server.UrlFor("pageWithJQuery.html"));
@@ -121,7 +117,7 @@ namespace SizSelCsZzz.Test
                         browser.MonitorJQueryAjax();
 
                         var executor = browser as IJavaScriptExecutor;
-                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(slowServer.UrlFor("wait")) + ");");
+                        executor.ExecuteScript("jQuery.ajax(" + Newtonsoft.Json.JsonConvert.SerializeObject(server.UrlFor("wait")) + ");");
                     });
 
                     ignoreIfInternetExplorer("not sure why this test isn't working on IE- may be a test only bug");
@@ -133,11 +129,11 @@ namespace SizSelCsZzz.Test
 
                     when("that longrunning call completes", delegate
                     {
-                        arrange(() => SomeTestServer.WaitHandle.Set());
+                        beforeEach(() => waitHandle.Set());
 
                         then("IsAjaxPending returns false", delegate
                         {
-                            expect(() => !browser.IsAjaxPending());
+                            expectEventually(() => !browser.IsAjaxPending());
                         });
                     });
                 });
