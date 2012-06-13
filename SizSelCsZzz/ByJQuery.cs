@@ -5,15 +5,15 @@ using SizSelCsZzz.Other;
 
 namespace SizSelCsZzz
 {
-    public class BySizzle : ByExternalScript
+    public class ByJQuery : ByExternalScript
     {
         public static By CssSelector(string selector)
         {
-            return new BySizzle()
+            return new ByJQuery()
             {
                 _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
-                _javascriptGlobal = "Sizzle",
-                _resourceLocation = "sizzleSource.sizzle.js"
+                _javascriptGlobal = "jQuery",
+                _resourceLocation = "jquerySource.jquery.js"
             };
         }
     }

@@ -59,12 +59,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByExternalScript.cs" />
+    <Compile Include="ByJQuery.cs" />
     <Compile Include="Extras\TCPUtil.cs" />
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
     <Compile Include="jquerySource\JQuerySource.cs" />
     <Compile Include="Other\BigScriptRunner.cs" />
+    <Compile Include="Other\ByExternalScript.cs" />
     <Compile Include="Other\DriverWrapperUnwrapper.cs" />
     <Compile Include="Other\JQueryNotInstalledException.cs" />
     <Compile Include="WebDriverExceptionMonitor.cs" />
@@ -85,7 +86,7 @@
     <EmbeddedResource Include="sizzleSource\sizzle.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="jquerySource\jquery-1.6.2.js" />
+    <Content Include="jquerySource\jquery.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

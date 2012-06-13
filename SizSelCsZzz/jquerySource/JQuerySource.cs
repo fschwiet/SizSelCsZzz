@@ -10,7 +10,7 @@ namespace SizSelCsZzz.jquerySource
     {
         public static string GetJQuerySource()
         {
-            return ResourceLoader.LoadResourceRelativeToType(typeof(JQuerySource), "jquery-1.6.2.js");
+            return ResourceLoader.LoadResourceRelativeToType(typeof(JQuerySource), "jquery.js");
         }
     }
 }

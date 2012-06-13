@@ -4,9 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using OpenQA.Selenium;
 using SizSelCsZzz.Extras;
-using SizSelCsZzz.Other;
 
-namespace SizSelCsZzz
+namespace SizSelCsZzz.Other
 {
     public class ByExternalScript : By
     {
