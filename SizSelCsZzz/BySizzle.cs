@@ -11,9 +11,9 @@ namespace SizSelCsZzz
         {
             return new BySizzle()
             {
-                _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
-                _javascriptGlobal = "Sizzle",
-                _resourceLocation = "sizzleSource.sizzle.js"
+                selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
+                javascriptGlobal = "Sizzle",
+                resourceLocation = "sizzleSource.sizzle.js"
             };
         }
     }

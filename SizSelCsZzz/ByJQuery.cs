@@ -11,11 +11,11 @@ namespace SizSelCsZzz
         {
             return new ByJQuery()
             {
-                _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
-                _javascriptGlobal = "jQuery",
-                _resourceLocation = "jquerySource.jquery.js",
-                _resultPrefix = "jQuery.makeArray(",
-                _resultPosftix = ")"
+                selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
+                javascriptGlobal = "jQuery",
+                resourceLocation = "jquerySource.jquery.js",
+                resultPrefix = "jQuery.makeArray(",
+                resultPosftix = ")"
             };
         }
     }

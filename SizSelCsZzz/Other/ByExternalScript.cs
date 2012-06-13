@@ -9,11 +9,11 @@ namespace SizSelCsZzz.Other
 {
     public class ByExternalScript : By
     {
-        protected string _selector;
-        protected string _javascriptGlobal;
-        protected string _resourceLocation;
-        protected string _resultPrefix = "";
-        protected string _resultPosftix = "";
+        protected string selector;
+        protected string javascriptGlobal;
+        protected string resourceLocation;
+        protected string resultPrefix = "";
+        protected string resultPosftix = "";
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
@@ -27,11 +27,11 @@ namespace SizSelCsZzz.Other
 
             if (context is IWebElement)
             {
-                executeScript = scriptExecutor.ExecuteScript("return " + _resultPrefix + _javascriptGlobal + "(" + _selector + ", arguments[0])" + _resultPosftix, context);
+                executeScript = scriptExecutor.ExecuteScript("return " + resultPrefix + javascriptGlobal + "(" + selector + ", arguments[0])" + resultPosftix, context);
             }
             else
             {
-                executeScript = scriptExecutor.ExecuteScript("return " + _resultPrefix + _javascriptGlobal + "(" + _selector + ")" + _resultPosftix);
+                executeScript = scriptExecutor.ExecuteScript("return " + resultPrefix + javascriptGlobal + "(" + selector + ")" + resultPosftix);
             }
 
             scriptResult = (IEnumerable<object>)executeScript;
@@ -47,7 +47,7 @@ namespace SizSelCsZzz.Other
 
             if (found.Count == 0)
             {
-                throw new NoSuchElementException("Could not find element matching css selector '" + _selector + "'.");
+                throw new NoSuchElementException("Could not find element matching css selector '" + selector + "'.");
             }
 
             return found.First();
@@ -57,7 +57,7 @@ namespace SizSelCsZzz.Other
         {
             if (!IsScriptLoaded(scriptExecutor))
             {
-                BigScriptRunner.RunBigScript(scriptExecutor, ResourceLoader.LoadResourceRelativeToType(typeof(ByJQuery), _resourceLocation));
+                BigScriptRunner.RunBigScript(scriptExecutor, ResourceLoader.LoadResourceRelativeToType(typeof(ByJQuery), resourceLocation));
             }
         }
 
@@ -66,7 +66,7 @@ namespace SizSelCsZzz.Other
             bool loaded;
             try
             {
-                loaded = (Boolean)scriptExecutor.ExecuteScript("return typeof(" + _javascriptGlobal + ")==='function'");
+                loaded = (Boolean)scriptExecutor.ExecuteScript("return typeof(" + javascriptGlobal + ")==='function'");
             }
             catch (Exception e)
             {
