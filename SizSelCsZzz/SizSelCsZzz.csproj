@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByExternalScript.cs" />
     <Compile Include="Extras\TCPUtil.cs" />
     <Compile Include="Extras\ResourceLoader.cs" />
     <Compile Include="JQueryAjaxWaiter.cs" />
