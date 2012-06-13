@@ -86,7 +86,7 @@
     <EmbeddedResource Include="sizzleSource\sizzle.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="jquerySource\jquery.js" />
+    <EmbeddedResource Include="jquerySource\jquery.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -87,7 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BySizzle_can_find_elements_by_Sizzle_css_selector.cs" />
+    <Compile Include="can_use_jQuery_or_Sizzle_to_find_elements.cs" />
     <Compile Include="Can_read_javascript_errors.cs" />
     <Compile Include="Can_switch_to_new_window.cs" />
     <Compile Include="NancyModuleRunner.cs" />

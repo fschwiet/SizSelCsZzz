@@ -13,7 +13,9 @@ namespace SizSelCsZzz
             {
                 _selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
                 _javascriptGlobal = "jQuery",
-                _resourceLocation = "jquerySource.jquery.js"
+                _resourceLocation = "jquerySource.jquery.js",
+                _resultPrefix = "jQuery.makeArray(",
+                _resultPosftix = ")"
             };
         }
     }

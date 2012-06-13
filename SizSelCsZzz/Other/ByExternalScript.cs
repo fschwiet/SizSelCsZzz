@@ -12,6 +12,8 @@ namespace SizSelCsZzz.Other
         protected string _selector;
         protected string _javascriptGlobal;
         protected string _resourceLocation;
+        protected string _resultPrefix = "";
+        protected string _resultPosftix = "";
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
@@ -21,14 +23,18 @@ namespace SizSelCsZzz.Other
 
             IEnumerable<object> scriptResult = null;
 
+            object executeScript;
+
             if (context is IWebElement)
             {
-                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return " + _javascriptGlobal + "(" + _selector + ", arguments[0])", context);
+                executeScript = scriptExecutor.ExecuteScript("return " + _resultPrefix + _javascriptGlobal + "(" + _selector + ", arguments[0])" + _resultPosftix, context);
             }
             else
             {
-                scriptResult = (IEnumerable<object>)scriptExecutor.ExecuteScript("return " + _javascriptGlobal + "(" + _selector + ")");
+                executeScript = scriptExecutor.ExecuteScript("return " + _resultPrefix + _javascriptGlobal + "(" + _selector + ")" + _resultPosftix);
             }
+
+            scriptResult = (IEnumerable<object>)executeScript;
 
             var result = new ReadOnlyCollection<IWebElement>(scriptResult.Cast<IWebElement>().ToList());
 
@@ -51,7 +57,7 @@ namespace SizSelCsZzz.Other
         {
             if (!IsScriptLoaded(scriptExecutor))
             {
-                BigScriptRunner.RunBigScript(scriptExecutor, ResourceLoader.LoadResourceRelativeToType(typeof(ByExternalScript), _resourceLocation));
+                BigScriptRunner.RunBigScript(scriptExecutor, ResourceLoader.LoadResourceRelativeToType(typeof(ByJQuery), _resourceLocation));
             }
         }
 

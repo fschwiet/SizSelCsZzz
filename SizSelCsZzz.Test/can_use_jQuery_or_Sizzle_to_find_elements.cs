@@ -10,7 +10,7 @@ using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz.Test
 {
-    public class BySizzle_can_find_elements_by_Sizzle_css_selector : SpecificationForAllBrowsers
+    public class can_use_jQuery_or_Sizzle_to_find_elements : SpecificationForAllBrowsers
     {
         public override void SpecifyForBrowser(IWebDriver browser)
         {
@@ -37,10 +37,13 @@ namespace SizSelCsZzz.Test
                     </body>
                     </html>"
                     }
-            }.Start()); 
-            
-            Check(browser, server, "Sizzle", BySizzle.CssSelector);
+            }.Start());
+
+            beforeAll(
+                () => server.Add("somepage.html", "<html><body><ul><li>LIST ITEM</li></ul><p>PARAGRAPH</p></body></html>"));
+
             Check(browser, server, "jQuery", ByJQuery.CssSelector);
+            Check(browser, server, "Sizzle", BySizzle.CssSelector);
         }
 
         void Check(IWebDriver browser, StaticServer server, string selectorName, Func<string, By> cssSelector)
@@ -88,9 +91,6 @@ namespace SizSelCsZzz.Test
 
                 describe("BySizzle.CssSelector can be used transitively", delegate
                 {
-                    beforeAll(
-                        () => server.Add("somepage.html", "<html><body><ul><li>LIST ITEM</li></ul><p>PARAGRAPH</p></body></html>"));
-
                     arrange(() => browser.Navigate().GoToUrl(server.UrlFor("somepage.html")));
 
                     it("matches descendant nodes",
