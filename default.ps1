@@ -6,7 +6,7 @@ properties {
 
     $browserArchiveDirectory="$baseDirectory\browser_archive"
 
-    $shortDescription = "An extension to Selenium to support Sizzle based CSS selectors.  Also, an extension method for waiting."
+    $shortDescription = "Various utility methods for Selenium from .NET.  (Use jQuery or Sizzle css selectors, wait on ajax operations, check client-side exceptions, switch to/from new window)"
 }
 
 import-module .\tools\PSUpdateXML.psm1
@@ -111,42 +111,31 @@ task RunTests -depends Build,ConfigureTests {
 task BuildNuget {
 
     $nugetTarget = "$buildDirectory\nuget"
+	
+	if (test-path $nugetTarget) {
+		rm $nugetTarget -force -recurse
+	}
 
     $null = mkdir "$nugetTarget\lib\"
     $null = mkdir "$nugetTarget\tools\"
 
     cp "$buildDirectory\SizSelCsZzz.dll" "$nugetTarget\lib\"
     cp "$buildDirectory\SizSelCsZzz.pdb" "$nugetTarget\lib\"
+	cp "$baseDirectory\SizSelCsZzz\SizSelCsZzz.nuspec" "$nugetTarget\"
 
-    $old = pwd
-    cd $nugetTarget
-    
-    ..\..\tools\nuget.exe spec -a ".\lib\SizSelCsZzz.dll"
-
-    update-xml "SizSelCsZzz.nuspec" {
+    update-xml "$nugetTarget\SizSelCsZzz.nuspec" {
 
         for-xml "//package/metadata" {
             set-xml -exactlyOnce "//version" "$version.0"
-            set-xml -exactlyOnce "//owners" "fschwiet"
-            set-xml -exactlyOnce "//authors" "Frank Schwieterman"
             set-xml -exactlyOnce "//description" $shortDescription
-
-            set-xml -exactlyOnce "//licenseUrl" "https://github.com/fschwiet/SizSelCsZzz/blob/master/LICENSE.txt"
-            set-xml -exactlyOnce "//projectUrl" "https://github.com/fschwiet/SizSelCsZzz/"
-            remove-xml -exactlyOnce "//iconUrl"
-            set-xml -exactlyOnce "//tags" "Selenium WebDriver Browser Automation"
+            set-xml -exactlyOnce "//releaseNotes" "Built against Selenium Webdriver $seleniumVersion"
 
             set-xml -exactlyOnce "//dependencies" ""
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"[4.5.1]`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"$seleniumVersion`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"$seleniumVersion`" />"
-
-            append-xml "." "<releaseNotes>Built against Selenium Webdriver $seleniumVersion</releaseNotes>";
-            append-xml "." "<summary>$shortDescription  This library requires .NET 4.</summary>"
         }
     }
 
-    ..\..\tools\nuget pack "SizSelCsZzz.nuspec"
-
-    cd $old
+	exec { & "$baseDirectory\tools\nuget.exe" pack "$nugetTarget\SizSelCsZzz.nuspec" -output "$nugetTarget\" }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SizSelCsZzz</id>
+    <version></version>
+    <title>SizSelCsZzz</title>
+    <authors>Frank Schwieterman</authors>
+    <owners>fschwiet</owners>
+    <licenseUrl>https://raw.github.com/fschwiet/SizSelCsZzz/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://raw.github.com/fschwiet/SizSelCsZzz/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description></description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Selenium WebDriver Browser Automation</tags>
+	<dependencies></dependencies>
+  </metadata>
+</package>
