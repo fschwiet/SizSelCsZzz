@@ -88,6 +88,22 @@
             <param name="cssSelectorToFind">The CSS selector to find.</param>
             <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
         </member>
+        <member name="M:OpenQA.Selenium.By.op_Equality(OpenQA.Selenium.By,OpenQA.Selenium.By)">
+            <summary>
+            Determines if two <see cref="T:OpenQA.Selenium.By"/> instances are equal.
+            </summary>
+            <param name="one">One instance to compare.</param>
+            <param name="two">The other instance to compare.</param>
+            <returns><see langword="true"/> if the two instances are equal; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:OpenQA.Selenium.By.op_Inequality(OpenQA.Selenium.By,OpenQA.Selenium.By)">
+            <summary>
+            Determines if two <see cref="T:OpenQA.Selenium.By"/> instances are unequal.
+            </summary>s
+            <param name="one">One instance to compare.</param>
+            <param name="two">The other instance to compare.</param>
+            <returns><see langword="true"/> if the two instances are not equal; otherwise, <see langword="false"/>.</returns>
+        </member>
         <member name="M:OpenQA.Selenium.By.FindElement(OpenQA.Selenium.ISearchContext)">
             <summary>
             Finds the first element matching the criteria.

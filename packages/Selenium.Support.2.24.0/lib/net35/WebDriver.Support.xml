@@ -821,7 +821,7 @@
         <member name="M:OpenQA.Selenium.Support.PageObjects.FindsByAttribute.op_Inequality(OpenQA.Selenium.Support.PageObjects.FindsByAttribute,OpenQA.Selenium.Support.PageObjects.FindsByAttribute)">
             <summary>
             Determines if two <see cref="T:OpenQA.Selenium.Support.PageObjects.FindsByAttribute"/> instances are unequal.
-            </summary>
+            </summary>s
             <param name="one">One instance to compare.</param>
             <param name="two">The other instance to compare.</param>
             <returns><see langword="true"/> if the two instances are not equal; otherwise, <see langword="false"/>.</returns>
