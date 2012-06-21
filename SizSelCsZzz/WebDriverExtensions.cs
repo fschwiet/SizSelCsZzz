@@ -26,13 +26,14 @@ namespace SizSelCsZzz
 
             do
             {
+                DateTime timeAttempted = DateTime.UtcNow;
                 try
                 {
                     return node.FindElement(condition);
                 }
                 catch (Exception)
                 {
-                    if (DateTime.UtcNow > finishTime)
+                    if (timeAttempted > finishTime)
                     {
                         throw;
                     }
