@@ -36,32 +36,32 @@
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\Nancy.Testing.0.10.0\lib\net40\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\Nancy.Testing.0.11.0\lib\net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPlus">
-      <HintPath>..\packages\Nancy.Testing.0.10.0\lib\net40\HtmlAgilityPlus.dll</HintPath>
+      <HintPath>..\packages\Nancy.Testing.0.11.0\lib\net40\HtmlAgilityPlus.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Nancy">
-      <HintPath>..\packages\Nancy.0.10.0\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\packages\Nancy.0.11.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Hosting.Self">
-      <HintPath>..\packages\Nancy.Hosting.Self.0.10.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+      <HintPath>..\packages\Nancy.Hosting.Self.0.11.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Testing">
-      <HintPath>..\packages\Nancy.Testing.0.10.0\lib\net40\Nancy.Testing.dll</HintPath>
+      <HintPath>..\packages\Nancy.Testing.0.11.0\lib\net40\Nancy.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NJasmine">
-      <HintPath>..\packages\NJasmine.NUnit.0.2.3.0-beta\lib\NJasmine.dll</HintPath>
+      <HintPath>..\packages\NJasmine.NUnit.0.2.4.0\lib\NJasmine.dll</HintPath>
     </Reference>
     <Reference Include="NJasmine.NUnit">
-      <HintPath>..\packages\NJasmine.NUnit.0.2.3.0-beta\lib\NJasmine.NUnit.dll</HintPath>
+      <HintPath>..\packages\NJasmine.NUnit.0.2.4.0\lib\NJasmine.NUnit.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
