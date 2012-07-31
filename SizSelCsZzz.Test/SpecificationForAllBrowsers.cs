@@ -87,7 +87,13 @@ namespace SizSelCsZzz.Test
 
             expect(() => File.Exists(exePath));
 
-            var firefoxProfile = new FirefoxProfile();
+            var profilePath = Path.Combine(Path.GetTempPath(), "EmptyProfileFolderForSizSelCsZzz_testing");
+            if (Directory.Exists(profilePath))
+                Directory.Delete(profilePath);
+
+            Directory.CreateDirectory(profilePath);
+
+            var firefoxProfile = new FirefoxProfile(profilePath);
             //arrange(() => firefoxProfile.AddExtension(xpiPath));
             return new FirefoxDriver(new FirefoxBinary(exePath), firefoxProfile);
         }
