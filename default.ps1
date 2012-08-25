@@ -105,7 +105,7 @@ task ConfigureTests {
 }
 
 task RunTests -depends Build,ConfigureTests {
-    exec { & "$baseDirectory\packages\NUnit.Runners.2.6.0.12051\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" }
+    exec { & "$baseDirectory\packages\NUnit.Runners.2.6.1\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" }
 }
 
 task BuildNuget {
@@ -131,7 +131,7 @@ task BuildNuget {
             set-xml -exactlyOnce "//releaseNotes" "Built against Selenium Webdriver $seleniumVersion"
 
             set-xml -exactlyOnce "//dependencies" ""
-            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.5.1`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.5`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"$seleniumVersion`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"$seleniumVersion`" />"
         }
