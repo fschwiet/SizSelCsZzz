@@ -131,7 +131,7 @@ task BuildNuget {
             set-xml -exactlyOnce "//releaseNotes" "Built against Selenium Webdriver $seleniumVersion"
 
             set-xml -exactlyOnce "//dependencies" ""
-            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.5.1`" />"
+            append-xml -exactlyOnce "//dependencies" "<dependency id=`"Newtonsoft.Json`" version=`"4.5`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.WebDriver`" version=`"$seleniumVersion`" />"
             append-xml -exactlyOnce "//dependencies" "<dependency id=`"Selenium.Support`" version=`"$seleniumVersion`" />"
         }
