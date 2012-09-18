@@ -1,4 +1,0 @@
-The nuget reference for newtonoft preferably wouldn't be a fixed version, we can't change this until selenium changes:  http://code.google.com/p/selenium/issues/detail?id=3192  /  http://code.google.com/p/selenium/issues/detail?id=2707
-
-
-should use jquery rather thatn sizzler, for :visible.
