@@ -1,0 +1,12 @@
+content	javaconsole1.6.0_27	chrome/content/ffjcext/
+overlay	chrome://browser/content/browser.xul	chrome://javaconsole1.6.0_27/content/ffjcext.xul
+locale		javaconsole1.6.0_27	en-US	chrome/locale/en-US/ffjcext/
+locale		javaconsole1.6.0_27	de-DE	chrome/locale/de-DE/ffjcext/
+locale		javaconsole1.6.0_27	es-ES	chrome/locale/es-ES/ffjcext/
+locale		javaconsole1.6.0_27	fr-FR	chrome/locale/fr-FR/ffjcext/
+locale		javaconsole1.6.0_27	it-IT	chrome/locale/it-IT/ffjcext/
+locale		javaconsole1.6.0_27	ja-JP	chrome/locale/ja-JP/ffjcext/
+locale		javaconsole1.6.0_27	ko-KR	chrome/locale/ko-KR/ffjcext/
+locale		javaconsole1.6.0_27	sv-SE	chrome/locale/sv-SE/ffjcext/
+locale		javaconsole1.6.0_27	zh-CN	chrome/locale/zh-CN/ffjcext/
+locale		javaconsole1.6.0_27	zh-TW	chrome/locale/zh-TW/ffjcext/
