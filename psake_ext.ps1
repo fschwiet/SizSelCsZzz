@@ -68,10 +68,10 @@ using System.Runtime.InteropServices;
 	$dir = [System.IO.Path]::GetDirectoryName($file)
 	if ([System.IO.Directory]::Exists($dir) -eq $false)
 	{
-		Write-Host "Creating directory $dir"
+		"Creating directory $dir"
 		[System.IO.Directory]::CreateDirectory($dir)
 	}
-	Write-Host "Generating assembly info file: $file"
+	"Generating assembly info file: $file"
 	$asmInfo | set-content $file -encoding utf8
 }
 
