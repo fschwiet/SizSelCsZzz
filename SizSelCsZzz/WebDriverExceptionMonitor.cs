@@ -32,7 +32,7 @@ namespace SizSelCsZzz
 
     window." + reporterFunction + @" = function() {
         return recordedErrors;
-    }
+    };
 
     })();";
 
