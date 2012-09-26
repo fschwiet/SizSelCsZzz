@@ -1,0 +1,1 @@
+﻿firefox zips are available at paths like ftp://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/15.0.1-candidates/build1/win32/en-US/
