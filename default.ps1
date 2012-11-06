@@ -2,7 +2,7 @@ properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
     $version = "0.2.26"
-	$seleniumVersion = "2.25.1"
+	$seleniumVersion = "2.26"
 
     $browserArchiveDirectory="$baseDirectory\browser_archive"
 
@@ -105,7 +105,7 @@ task ConfigureTests {
 }
 
 task RunTests -depends Build,ConfigureTests {
-    exec { & "$baseDirectory\packages\NUnit.Runners.2.6.1\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" -exclude:"unsupported" }
+    exec { & "$baseDirectory\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" -exclude:"unsupported" }
 }
 
 task BuildNuget {
