@@ -105,7 +105,9 @@ task ConfigureTests {
 }
 
 task RunTests -depends Build,ConfigureTests {
-    exec { & "$baseDirectory\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe" "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" -exclude:"unsupported" }
+    $nunitConsole = $(resolve-path $baseDirectory\packages\NUnit.Runners*\tools\nunit-console.exe)
+
+    exec { & $nunitConsole "$buildDirectory\SizSelCsZzz.Test.dll" -xml:"$buildDirectory\TestResults.xml" -exclude:"unsupported" }
 }
 
 task BuildNuget {
