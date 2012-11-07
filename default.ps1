@@ -1,7 +1,7 @@
 properties {
     $baseDirectory  = resolve-path .
     $buildDirectory = ($buildDirectory, "$baseDirectory\build") | select -first 1
-    $version = "0.2.26"
+    $version = "0.3.26"
 	$seleniumVersion = "2.26"
 
     $browserArchiveDirectory="$baseDirectory\browser_archive"
