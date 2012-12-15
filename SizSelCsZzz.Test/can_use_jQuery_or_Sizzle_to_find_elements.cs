@@ -44,6 +44,8 @@ namespace SizSelCsZzz.Test
 
             Check(browser, server, "jQuery", ByJQuery.CssSelector);
             Check(browser, server, "Sizzle", BySizzle.CssSelector);
+            Check(browser, server, "jQuery", ByJQuery.Unique);
+            Check(browser, server, "Sizzle", BySizzle.Unique);
         }
 
         void Check(IWebDriver browser, StaticServer server, string selectorName, Func<string, By> cssSelector)

@@ -23,5 +23,10 @@ namespace SizSelCsZzz
         {
             return new BySizzle.BySizzleSelector(selector);
         }
+
+        public static By Unique(string selector)
+        {
+            return new BySizzle.BySizzleSelector(selector);
+        }
     }
 }
