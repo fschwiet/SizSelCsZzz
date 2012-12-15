@@ -7,16 +7,21 @@ namespace SizSelCsZzz
 {
     public class ByJQuery : ByExternalScript
     {
+        public class ByJQuerySelector : ByExternalScript
+        {
+            public ByJQuerySelector(string selector)
+            {
+                this.selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector);
+                javascriptGlobal = "jQuery";
+                resourceLocation = "jquerySource.jquery.js";
+                resultPrefix = "jQuery.makeArray(";
+                resultPosftix = ")";
+            }
+        }
+
         public static By CssSelector(string selector)
         {
-            return new ByJQuery()
-            {
-                selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector),
-                javascriptGlobal = "jQuery",
-                resourceLocation = "jquerySource.jquery.js",
-                resultPrefix = "jQuery.makeArray(",
-                resultPosftix = ")"
-            };
+            return new BySizzle.BySizzleSelector(selector);
         }
     }
 }
