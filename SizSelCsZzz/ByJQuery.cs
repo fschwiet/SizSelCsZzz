@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Internal;
 using SizSelCsZzz.Other;
 
 namespace SizSelCsZzz
@@ -9,9 +9,10 @@ namespace SizSelCsZzz
     {
         public class ByJQuerySelector : ByExternalScript
         {
-            public ByJQuerySelector(string selector)
+            public ByJQuerySelector(string selector, bool enforceUniqueness)
             {
                 this.selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector);
+                this.enforceUniqueness = enforceUniqueness;
                 javascriptGlobal = "jQuery";
                 resourceLocation = "jquerySource.jquery.js";
                 resultPrefix = "jQuery.makeArray(";
@@ -21,12 +22,12 @@ namespace SizSelCsZzz
 
         public static By CssSelector(string selector)
         {
-            return new BySizzle.BySizzleSelector(selector);
+            return new BySizzle.BySizzleSelector(selector, false);
         }
 
         public static By Unique(string selector)
         {
-            return new BySizzle.BySizzleSelector(selector);
+            return new BySizzle.BySizzleSelector(selector, true);
         }
     }
 }

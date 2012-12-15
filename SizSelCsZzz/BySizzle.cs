@@ -9,9 +9,10 @@ namespace SizSelCsZzz
     {
         public class BySizzleSelector : ByExternalScript
         {
-            public BySizzleSelector(string selector)
+            public BySizzleSelector(string selector, bool enforceUniqueness)
             {
                 this.selector = Newtonsoft.Json.JsonConvert.SerializeObject(selector);
+                this.enforceUniqueness = enforceUniqueness;
                 javascriptGlobal = "Sizzle";
                 resourceLocation = "sizzleSource.sizzle.js";
             }
@@ -19,12 +20,12 @@ namespace SizSelCsZzz
 
         public static By CssSelector(string selector)
         {
-            return new BySizzleSelector(selector);
+            return new BySizzleSelector(selector, false);
         }
 
         public static By Unique(string selector)
         {
-            return new BySizzleSelector(selector);
+            return new BySizzleSelector(selector, true);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace SizSelCsZzz.Other
         protected string resourceLocation;
         protected string resultPrefix = "";
         protected string resultPosftix = "";
+        protected bool enforceUniqueness = false;
 
         public override ReadOnlyCollection<IWebElement> FindElements(ISearchContext context)
         {
@@ -47,7 +48,12 @@ namespace SizSelCsZzz.Other
 
             if (found.Count == 0)
             {
-                throw new NoSuchElementException("Could not find element matching css selector '" + selector + "'.");
+                throw new NoSuchElementException("Could not find element matching css selector " + selector + ".");
+            }
+
+            if (enforceUniqueness && found.Count() > 1)
+            {
+                throw new InvalidOperationException("More than one element matched selector " + selector + ".");
             }
 
             return found.First();
