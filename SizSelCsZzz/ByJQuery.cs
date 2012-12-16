@@ -22,12 +22,12 @@ namespace SizSelCsZzz
 
         public static By CssSelector(string selector)
         {
-            return new BySizzle.BySizzleSelector(selector, false);
+            return new ByJQuery.ByJQuerySelector(selector, false);
         }
 
         public static By Unique(string selector)
         {
-            return new BySizzle.BySizzleSelector(selector, true);
+            return new ByJQuery.ByJQuerySelector(selector, true);
         }
     }
 }
