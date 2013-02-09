@@ -5,7 +5,7 @@ using SizSelCsZzz.Other;
 
 namespace SizSelCsZzz
 {
-    public class ByJQuery : ByExternalScript
+    public class ByJQuery
     {
         public class ByJQuerySelector : ByExternalScript
         {

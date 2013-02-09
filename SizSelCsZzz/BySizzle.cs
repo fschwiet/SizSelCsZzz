@@ -5,7 +5,7 @@ using SizSelCsZzz.Other;
 
 namespace SizSelCsZzz
 {
-    public class BySizzle : ByExternalScript
+    public class BySizzle 
     {
         public class BySizzleSelector : ByExternalScript
         {
