@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProductAttribute("SizSelCsZzz 0.3.30.0")]
 [assembly: AssemblyCopyrightAttribute("Copyright © Frank Schwieterman 2011")]
 [assembly: AssemblyVersionAttribute("0.3.30.0")]
-[assembly: AssemblyInformationalVersionAttribute("0.3.30.0 / 5e01fe0")]
+[assembly: AssemblyInformationalVersionAttribute("0.3.30.0 / 1966676")]
 [assembly: AssemblyFileVersionAttribute("0.3.30.0")]
 [assembly: AssemblyDelaySignAttribute(false)]
 
