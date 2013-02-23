@@ -7,6 +7,7 @@ using NJasmine;
 using NUnit.Framework;
 using Nancy;
 using OpenQA.Selenium;
+using SizSelCsZzz;
 using SizSelCsZzz.Extras;
 
 namespace SizSelCsZzz.Test
@@ -17,10 +18,17 @@ namespace SizSelCsZzz.Test
         {
             public FakeServerWithJavascriptErrors()
             {
-                Get["/hello"] = c => 
+                Get["/hello"] = c =>
                     @"<html> 
                         <title>OK</title> 
-                        <body><a href='javascript:void(0);' onclick='window.callNonexistingFunction()'>click for error</a></body>
+                        <script>
+                            function causeError() {
+                                setTimeout(function() {
+                                    window.callNonexistingFunction()
+                                }, 500);
+                            }
+                        </script>
+                        <body><a href='javascript:void(0);' onclick='causeError()'>click for error</a></body>
                     </html>";
             }
         }
@@ -47,10 +55,7 @@ namespace SizSelCsZzz.Test
                 {
                     arrange(() => browser.FindElement(By.LinkText("click for error")).Click());
 
-                    then("the error is counted", delegate()
-                    {
-                        expect(() => exceptionReader.GetJavascriptExceptions().Count() > 0);
-                    });
+                    expectEventually(() => exceptionReader.GetJavascriptExceptions().Count() > 0);
 
                     then("the error message is recorded", delegate()
                     {
