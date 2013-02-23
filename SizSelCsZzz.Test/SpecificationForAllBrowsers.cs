@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 
 namespace SizSelCsZzz.Test
@@ -20,9 +21,16 @@ namespace SizSelCsZzz.Test
 
         public sealed override void Specify()
         {
-            var browserRoot = ResolvePathRelativeToDllDirectory(Properties.Settings.Default.BrowserArchivePath);
+            given("PhantomJS", () =>
+            {
+                withCategory("PhantomJS");
 
-            //var isFirstVersion = true;
+                var browser = beforeAll(() => new PhantomJSDriver());
+
+                SpecifyForBrowser(browser);
+            });
+
+            var browserRoot = ResolvePathRelativeToDllDirectory(Properties.Settings.Default.BrowserArchivePath);
 
             foreach (var executeable in GetVersionByDirectoryWithPattern(browserRoot, "firefox-*", "firefox.exe"))
             given("Firefox " + executeable.MajorVersion, delegate
