@@ -47,8 +47,12 @@ namespace SizSelCsZzz.Test
 
             foreach(var executeable in GetVersionByDirectoryWithPattern(browserRoot, "chrome-*", "chrome.exe"))
             {
-                given("Chrome " + executeable.MajorVersion, delegate
+                var versionName = "Chrome " + executeable.MajorVersion;
+
+                given(versionName, delegate
                 {
+                    withCategory(versionName);
+
                     if (executeable.NotSupported)
                     {
                         withCategory("unsupported");
