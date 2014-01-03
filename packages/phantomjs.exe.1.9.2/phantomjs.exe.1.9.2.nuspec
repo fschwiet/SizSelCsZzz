@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>phantomjs.exe</id>
+    <version>1.9.2</version>
+    <authors>Ariya Hidayat</authors>
+    <owners>Ariya Hidayat</owners>
+    <licenseUrl>https://github.com/ariya/phantomjs/blob/master/LICENSE.BSD</licenseUrl>
+    <projectUrl>http://phantomjs.org/</projectUrl>
+    <iconUrl>http://phantomjs.org/images/phantomjs-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>PhantomJS executable</description>
+    <tags>PhantomJS headless browser exe executable</tags>
+  </metadata>
+</package>
